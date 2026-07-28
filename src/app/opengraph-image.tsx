@@ -1,24 +1,28 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-async function loadPlayfairItalic(text: string) {
-  const url = `https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&text=${encodeURIComponent(text)}`;
-  const css = await (await fetch(url)).text();
-  const match = css.match(/src: url\(([^)]+)\) format\('(opentype|truetype)'\)/);
-  if (match) {
-    const response = await fetch(match[1]);
-    if (response.ok) return response.arrayBuffer();
+// Font je bundlovan lokalno (src/assets/fonts) umjesto fetch-ovanja sa Google Fonts
+// u trenutku generisanja - fetch tokom build-a je nepouzdan (vidjeli smo ETIMEDOUT
+// na Vercel build serverima) i nepotrebno spor za nesto sto se nikad ne mijenja.
+async function loadPlayfairItalic() {
+  try {
+    return await readFile(
+      join(process.cwd(), "src/assets/fonts/PlayfairDisplay-Italic.ttf")
+    );
+  } catch {
+    return null;
   }
-  return null;
 }
 
 export default async function OpengraphImage() {
   const eyebrow = "Frizerski salon";
   const headline = "Tress Studio";
   const slogan = "Umijeće pramena.";
-  const fontData = await loadPlayfairItalic(eyebrow + headline + slogan);
+  const fontData = await loadPlayfairItalic();
   const fontFamily = fontData ? "Playfair" : "serif";
 
   return new ImageResponse(
