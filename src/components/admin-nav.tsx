@@ -31,8 +31,8 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             className={
               active
-                ? "border-l-2 border-brass bg-paper/5 px-4 py-2.5 text-brass"
-                : "border-l-2 border-transparent px-4 py-2.5 text-paper-dim/70 transition-colors hover:text-paper"
+                ? "px-4 py-2.5 text-center text-brass"
+                : "px-4 py-2.5 text-center text-paper-dim/70 transition-colors hover:text-paper"
             }
           >
             {link.label}
@@ -57,14 +57,17 @@ export function AdminNav() {
     <>
       {/* Desktop: lijevi sidebar */}
       <aside className="hidden w-56 shrink-0 flex-col border-r border-paper/10 bg-ink sm:flex">
-        <div className="px-6 py-5">
+        <div className="px-6 py-5 text-center">
           <span className="font-display text-lg italic text-paper">
             Tress Studio
           </span>
         </div>
         <nav className="flex flex-1 flex-col justify-between py-2">
           <NavLinks />
-          <form action={logout} className="border-t border-paper/10 px-4 py-4">
+          <form
+            action={logout}
+            className="border-t border-paper/10 px-4 py-4 text-center"
+          >
             <button
               type="submit"
               className="font-mono text-xs tracking-[0.1em] text-paper-dim/70 uppercase transition-colors hover:text-brass"
