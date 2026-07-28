@@ -31,8 +31,8 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             className={
               active
-                ? "px-4 py-2.5 text-center text-brass"
-                : "px-4 py-2.5 text-center text-paper-dim/70 transition-colors hover:text-paper"
+                ? "px-7 py-2.5 text-left text-brass"
+                : "px-7 py-2.5 text-left text-paper-dim/70 transition-colors hover:text-paper"
             }
           >
             {link.label}
