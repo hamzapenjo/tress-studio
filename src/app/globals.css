@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-playfair);
+
+  /* Tress Studio brand - "Strand" */
+  --color-ink: #131113;
+  --color-ink-2: #1c191b;
+  --color-paper: #e2d9c9;
+  --color-paper-dim: #a8a29a;
+  --color-brass: #ab8a50;
+  --color-wine: #7a2138;
+  --color-good: #6f9c7c;
+  --color-ink-dim: #6b6660;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brass) var(--color-ink);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-brass);
+  border: 2px solid var(--color-ink);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-brass) 80%, white);
+}
+
+.strand-draw {
+  opacity: 0.6;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: strand-draw-in 2.4s ease-out 0.2s forwards;
+}
+
+@keyframes strand-draw-in {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Mask reveal - za fotografije, "otkrivaju se" umjesto da samo fade-uju. */
+.mask-reveal {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.mask-reveal.reveal-visible {
+  clip-path: inset(0 0 0% 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask-reveal {
+    clip-path: inset(0 0 0% 0);
+    transition: none;
+  }
+}
+
+/* Suptilan zoom na fotografijama pri hover-u. */
+.photo-zoom {
+  overflow: hidden;
+}
+
+.photo-zoom img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.photo-zoom:hover img {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-zoom img {
+    transition: none;
+  }
+  .photo-zoom:hover img {
+    transform: none;
+  }
+}
