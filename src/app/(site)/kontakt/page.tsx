@@ -62,7 +62,7 @@ export default function KontaktPage() {
           <h2 className="mb-2 text-xs tracking-[0.14em] text-ink-dim uppercase">
             Lokacija
           </h2>
-          <div className="h-20 w-full overflow-hidden border border-ink/10 sm:h-24">
+          <div className="h-56 w-full overflow-hidden border border-ink/10 sm:h-[312px]">
             <iframe
               title="Lokacija - Maršala Tita 45, Sarajevo"
               src="https://www.google.com/maps?q=Mar%C5%A1ala+Tita+45%2C+Sarajevo%2C+Bosna+i+Hercegovina&output=embed"
