@@ -4,6 +4,14 @@
   color-scheme: dark;
 }
 
+/* Tailwind v4 preflight, unlike v3, no longer sets cursor: pointer on
+   buttons - browsers default buttons to cursor: default. Restore the
+   more helpful behavior everywhere except disabled buttons. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 @theme inline {
   --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);

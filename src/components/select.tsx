@@ -15,6 +15,7 @@ export function Select({
   className,
   onChange,
   testId,
+  variant = "dark",
 }: {
   name?: string;
   options: SelectOption[];
@@ -23,6 +24,7 @@ export function Select({
   className?: string;
   onChange?: (value: string) => void;
   testId?: string;
+  variant?: "dark" | "light";
 }) {
   const [value, setValue] = useState(defaultValue);
   const [open, setOpen] = useState(false);
@@ -58,7 +60,15 @@ export function Select({
           "flex w-full items-center justify-between gap-2 border border-paper/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-paper focus:border-brass focus:outline-none"
         }
       >
-        <span className={selected ? "" : "text-paper-dim/60"}>
+        <span
+          className={
+            selected
+              ? ""
+              : variant === "light"
+                ? "text-ink-dim/60"
+                : "text-paper-dim/60"
+          }
+        >
           {selected ? selected.label : placeholder}
         </span>
         <svg
@@ -79,7 +89,11 @@ export function Select({
       {open && (
         <ul
           role="listbox"
-          className="absolute z-20 mt-1 max-h-64 w-full min-w-max overflow-auto border border-paper/15 bg-ink py-1 shadow-lg"
+          className={
+            variant === "light"
+              ? "absolute z-20 mt-1 max-h-64 w-full min-w-max overflow-auto border border-ink/15 bg-paper py-1 shadow-lg"
+              : "absolute z-20 mt-1 max-h-64 w-full min-w-max overflow-auto border border-paper/15 bg-ink py-1 shadow-lg"
+          }
         >
           {options.map((opt) => (
             <li key={opt.value}>
@@ -92,9 +106,15 @@ export function Select({
                   setOpen(false);
                   onChange?.(opt.value);
                 }}
-                className={`block w-full px-3 py-2 text-left font-mono text-sm whitespace-nowrap hover:bg-paper/10 ${
-                  opt.value === value ? "text-brass" : "text-paper"
-                }`}
+                className={
+                  variant === "light"
+                    ? `block w-full px-3 py-2 text-left font-mono text-sm whitespace-nowrap hover:bg-ink/5 ${
+                        opt.value === value ? "text-brass" : "text-ink"
+                      }`
+                    : `block w-full px-3 py-2 text-left font-mono text-sm whitespace-nowrap hover:bg-paper/10 ${
+                        opt.value === value ? "text-brass" : "text-paper"
+                      }`
+                }
               >
                 {opt.label}
               </button>

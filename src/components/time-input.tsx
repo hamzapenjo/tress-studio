@@ -15,12 +15,14 @@ export function TimeInput({
   onChange,
   triggerClassName,
   separatorClassName,
+  variant = "dark",
 }: {
   name: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
   triggerClassName?: string;
   separatorClassName?: string;
+  variant?: "dark" | "light";
 }) {
   const [defaultHour = "", defaultMinute = ""] = (defaultValue ?? "").split(":");
   const [hour, setHour] = useState(defaultHour);
@@ -48,6 +50,7 @@ export function TimeInput({
         }}
         className={triggerClass}
         testId="time-hour"
+        variant={variant}
       />
       <span className={separatorClassName ?? "text-paper-dim"}>:</span>
       <Select
@@ -60,6 +63,7 @@ export function TimeInput({
         }}
         className={triggerClass}
         testId="time-minute"
+        variant={variant}
       />
     </div>
   );

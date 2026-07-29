@@ -84,6 +84,7 @@ export function BookingForm({
           }))}
           onChange={setServiceId}
           testId="service-select"
+          variant="light"
         />
       </div>
 
@@ -99,6 +100,7 @@ export function BookingForm({
               label: member.name,
             }))}
             onChange={setStaffId}
+            variant="light"
           />
         </div>
       )}
@@ -111,6 +113,7 @@ export function BookingForm({
           onChange={setDate}
           triggerClassName={fieldClass + " flex items-center justify-between gap-2"}
           mutedClassName={dateMutedClass}
+          variant="light"
         />
       </div>
 
@@ -121,6 +124,7 @@ export function BookingForm({
           onChange={setTime}
           triggerClassName={timeTriggerClass}
           separatorClassName="text-ink-dim"
+          variant="light"
         />
         <p className="text-xs text-ink-dim">Radimo Pon-Pet 09:00-17:00.</p>
       </div>

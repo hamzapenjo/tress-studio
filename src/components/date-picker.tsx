@@ -31,6 +31,7 @@ export function DatePicker({
   onChange,
   triggerClassName,
   mutedClassName,
+  variant = "dark",
 }: {
   name: string;
   minDate?: Date;
@@ -38,6 +39,7 @@ export function DatePicker({
   onChange?: (value: string) => void;
   triggerClassName?: string;
   mutedClassName?: string;
+  variant?: "dark" | "light";
 }) {
   const [value, setValue] = useState(defaultValue ?? "");
   const [open, setOpen] = useState(false);
@@ -112,23 +114,43 @@ export function DatePicker({
       </button>
 
       {open && (
-        <div className="absolute z-20 mt-1 w-64 border border-paper/15 bg-ink p-3 shadow-lg">
+        <div
+          className={
+            variant === "light"
+              ? "absolute z-20 mt-1 w-64 border border-ink/15 bg-paper p-3 shadow-lg"
+              : "absolute z-20 mt-1 w-64 border border-paper/15 bg-ink p-3 shadow-lg"
+          }
+        >
           <div className="mb-2 flex items-center justify-between">
             <button
               type="button"
               onClick={() => setViewDate(new Date(year, month - 1, 1))}
-              className="px-2 py-1 text-paper-dim hover:text-brass"
+              className={
+                variant === "light"
+                  ? "px-2 py-1 text-ink-dim hover:text-brass"
+                  : "px-2 py-1 text-paper-dim hover:text-brass"
+              }
             >
               ‹
             </button>
-            <span className="font-mono text-xs tracking-[0.08em] text-paper uppercase">
+            <span
+              className={
+                variant === "light"
+                  ? "font-mono text-xs tracking-[0.08em] text-ink uppercase"
+                  : "font-mono text-xs tracking-[0.08em] text-paper uppercase"
+              }
+            >
               {MONTHS[month]} {year}
             </span>
             <button
               type="button"
               data-testid="date-next-month"
               onClick={() => setViewDate(new Date(year, month + 1, 1))}
-              className="px-2 py-1 text-paper-dim hover:text-brass"
+              className={
+                variant === "light"
+                  ? "px-2 py-1 text-ink-dim hover:text-brass"
+                  : "px-2 py-1 text-paper-dim hover:text-brass"
+              }
             >
               ›
             </button>
@@ -137,7 +159,11 @@ export function DatePicker({
             {WEEKDAYS.map((w) => (
               <div
                 key={w}
-                className="text-center font-mono text-[10px] text-paper-dim"
+                className={
+                  variant === "light"
+                    ? "text-center font-mono text-[10px] text-ink-dim"
+                    : "text-center font-mono text-[10px] text-paper-dim"
+                }
               >
                 {w}
               </div>
@@ -164,8 +190,10 @@ export function DatePicker({
                     selected
                       ? "bg-brass text-ink"
                       : disabled
-                        ? "cursor-default text-paper-dim/30"
-                        : "text-paper hover:bg-paper/10"
+                        ? `cursor-default ${variant === "light" ? "text-ink-dim/30" : "text-paper-dim/30"}`
+                        : variant === "light"
+                          ? "text-ink hover:bg-ink/5"
+                          : "text-paper hover:bg-paper/10"
                   }`}
                 >
                   {d.getDate()}
