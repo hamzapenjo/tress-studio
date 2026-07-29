@@ -112,6 +112,27 @@ body {
   }
 }
 
+@keyframes quote-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quote-fade-in {
+  animation: quote-fade-in 0.45s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-fade-in {
+    animation: none;
+  }
+}
+
 /* Suptilan zoom na fotografijama pri hover-u. */
 .photo-zoom {
   overflow: hidden;

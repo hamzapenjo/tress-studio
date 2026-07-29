@@ -5,6 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { SafeImage } from "@/components/safe-image";
 import { PublicReviewForm } from "@/components/public-review-form";
+import { ReviewsSpotlight } from "@/components/reviews-spotlight";
 
 // Privremene stock fotografije (Unsplash) dok salon ne nabavi svoje.
 // TODO: zamijeniti pravim fotografijama prostora/osoblja prije lansiranja -
@@ -298,41 +299,23 @@ export default async function Home() {
           </section>
         )}
 
-        {/* RECENZIJE - horizontalni slider */}
+        {/* RECENZIJE - spotlight citat */}
         <section className="border-t border-ink/10">
           <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
-            <Reveal>
+            <Reveal className="block text-center">
               <p className="mb-16 text-xs tracking-[0.2em] text-brass uppercase">
                 Recenzije
               </p>
             </Reveal>
             {reviews && reviews.length > 0 ? (
-              <div className="-mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-4">
-                {reviews.map((review) => (
-                  <div
-                    key={review.id}
-                    className="w-[80%] shrink-0 snap-start border border-ink/10 bg-ink/[0.02] p-8 sm:w-[360px]"
-                  >
-                    <p className="text-brass">
-                      {"★".repeat(review.rating)}
-                      <span className="text-ink-dim/40">
-                        {"★".repeat(5 - review.rating)}
-                      </span>
-                    </p>
-                    <p className="mt-5 font-display text-lg italic leading-relaxed">
-                      &ldquo;{review.body}&rdquo;
-                    </p>
-                    <p className="mt-5 text-xs text-ink-dim uppercase tracking-[0.08em]">
-                      {review.author_name}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              <Reveal className="block">
+                <ReviewsSpotlight reviews={reviews} />
+              </Reveal>
             ) : (
-              <p className="text-sm text-ink-dim">Recenzije uskoro.</p>
+              <p className="text-center text-sm text-ink-dim">Recenzije uskoro.</p>
             )}
 
-            <Reveal className="mt-16 block max-w-md">
+            <Reveal className="mx-auto mt-20 block max-w-md">
               <p className="mb-2 font-display text-xl italic">
                 Podijelite Vaše iskustvo
               </p>

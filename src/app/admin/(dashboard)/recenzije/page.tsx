@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ReviewForm } from "@/components/review-form";
 import { linkDangerClass, buttonPrimaryClass } from "@/components/admin/field-styles";
 import { approveReview, deleteReview } from "./actions";
+import { StarRating } from "@/components/star-rating";
 import type { Database } from "@/lib/database.types";
 
 type Review = Database["public"]["Tables"]["reviews"]["Row"];
@@ -36,9 +37,8 @@ function ReviewsTable({
           {reviews.map((review) => (
             <tr key={review.id} className="hover:bg-paper/[0.03]">
               <td className="border-b border-paper/10 px-4 py-3">{review.author_name}</td>
-              <td className="border-b border-paper/10 px-4 py-3 text-brass">
-                {"★".repeat(review.rating)}
-                <span className="text-paper-dim">{"★".repeat(5 - review.rating)}</span>
+              <td className="border-b border-paper/10 px-4 py-3">
+                <StarRating rating={review.rating} className="text-paper-dim/30" />
               </td>
               <td className="border-b border-paper/10 px-4 py-3">{review.body}</td>
               <td className="border-b border-paper/10 px-4 py-3">
