@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import {
   uploadSingleImage,
   uploadPairImages,
@@ -12,6 +12,7 @@ import {
   labelClass,
   buttonPrimaryClass,
 } from "@/components/admin/field-styles";
+import { ImageDropzone } from "@/components/admin/image-dropzone";
 
 const initialState: GalleryFormState = { status: "idle" };
 
@@ -29,14 +30,27 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
     initialState
   );
 
+  const singleFormRef = useRef<HTMLFormElement>(null);
+  const singleWasPending = useRef(false);
+  const [dropzoneKey, setDropzoneKey] = useState(0);
+
+  useEffect(() => {
+    if (singleWasPending.current && !singlePending && singleState.status === "idle") {
+      singleFormRef.current?.reset();
+      setDropzoneKey((k) => k + 1);
+    }
+    singleWasPending.current = singlePending;
+  }, [singlePending, singleState]);
+
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
       <form
+        ref={singleFormRef}
         action={singleAction}
         className="flex flex-col gap-4 border border-paper/10 p-6"
       >
         <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
-          Dodaj pojedinačnu sliku
+          Dodaj slike
         </h2>
         <div className="flex flex-col gap-1.5">
           <label className={labelClass}>Kategorija</label>
@@ -49,14 +63,8 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className={labelClass}>Slika</label>
-          <input
-            type="file"
-            name="file"
-            accept="image/*"
-            required
-            className={fieldClass}
-          />
+          <label className={labelClass}>Slike (možete odabrati više odjednom)</label>
+          <ImageDropzone key={dropzoneKey} name="files" />
         </div>
         {singleState.status === "error" && (
           <p className="text-sm text-wine">{singleState.message}</p>
@@ -66,7 +74,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
           disabled={singlePending}
           className={buttonPrimaryClass + " self-start"}
         >
-          {singlePending ? "Slanje..." : "Dodaj sliku"}
+          {singlePending ? "Slanje..." : "Dodaj slike"}
         </button>
       </form>
 

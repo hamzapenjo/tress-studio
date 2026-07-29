@@ -37,25 +37,28 @@ export async function uploadSingleImage(
   formData: FormData
 ): Promise<GalleryFormState> {
   const category = String(formData.get("category") ?? "").trim() || "Ostalo";
-  const file = formData.get("file") as File | null;
+  const files = formData
+    .getAll("files")
+    .filter((f): f is File => f instanceof File && f.size > 0);
 
-  if (!file || file.size === 0) {
-    return { status: "error", message: "Odaberite sliku." };
+  if (files.length === 0) {
+    return { status: "error", message: "Odaberite bar jednu sliku." };
   }
 
   const supabase = await createClient();
-  const url = await uploadToBucket(supabase, file);
+  const urls = await Promise.all(files.map((file) => uploadToBucket(supabase, file)));
+  const successfulUrls = urls.filter((url): url is string => Boolean(url));
 
-  if (!url) {
-    return { status: "error", message: "Greška prilikom upload-a slike." };
+  if (successfulUrls.length === 0) {
+    return { status: "error", message: "Greška prilikom upload-a slika." };
   }
 
   const { error } = await supabase
     .from("gallery_images")
-    .insert({ url, category });
+    .insert(successfulUrls.map((url) => ({ url, category })));
 
   if (error) {
-    return { status: "error", message: "Greška prilikom snimanja slike." };
+    return { status: "error", message: "Greška prilikom snimanja slika." };
   }
 
   revalidatePath("/admin/galerija");
