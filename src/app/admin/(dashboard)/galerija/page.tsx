@@ -72,27 +72,13 @@ export default async function AdminGalerijaPage() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {(looks ?? []).map((look) => (
               <div key={look.id} className="flex flex-col gap-2 border border-paper/10 p-3">
-                <div className="relative aspect-[3/4]">
-                  <SafeImage src={look.front_url} alt="" className="h-full w-full object-cover" />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="relative aspect-square">
-                    <SafeImage src={look.back_url} alt="" className="h-full w-full object-cover" />
-                  </div>
-                  <div className="relative aspect-square">
-                    <SafeImage src={look.side_url} alt="" className="h-full w-full object-cover" />
-                  </div>
+                <div className="relative aspect-[4/3]">
+                  <SafeImage src={look.image_url} alt="" className="h-full w-full object-cover" />
                 </div>
                 <span className="font-mono text-[10px] text-paper-dim uppercase">
                   {look.title}
                 </span>
-                <form
-                  action={deleteHairstyleLook.bind(null, look.id, [
-                    look.front_url,
-                    look.back_url,
-                    look.side_url,
-                  ])}
-                >
+                <form action={deleteHairstyleLook.bind(null, look.id, look.image_url)}>
                   <button type="submit" className={linkDangerClass + " w-full"}>
                     Obriši
                   </button>

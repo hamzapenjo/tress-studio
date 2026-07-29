@@ -124,7 +124,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
         className="flex flex-col gap-4 border border-paper/10 p-6"
       >
         <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
-          Dodaj frizuru (front/back/side)
+          Dodaj frizuru
         </h2>
         <div className="flex flex-col gap-1.5">
           <label className={labelClass}>Naziv frizure *</label>
@@ -137,19 +137,11 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className={labelClass}>Slika &mdash; sprijeda</label>
-          <input type="file" name="front" accept="image/*" className={fieldClass} />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label className={labelClass}>Slika &mdash; pozadi</label>
-          <input type="file" name="back" accept="image/*" className={fieldClass} />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label className={labelClass}>Slika &mdash; sa strane</label>
-          <input type="file" name="side" accept="image/*" className={fieldClass} />
+          <label className={labelClass}>Slika (front/back/side kolaž)</label>
+          <input type="file" name="image" accept="image/*" className={fieldClass} />
         </div>
         <p className="text-xs text-paper-dim">
-          Slike su opcione - možete dodati naziv sad, a fotografije naknadno.
+          Slika je opciona - možete dodati naziv sad, a fotografiju naknadno.
         </p>
         {lookState.status === "error" && (
           <p className="text-sm text-wine">{lookState.message}</p>

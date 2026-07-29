@@ -163,34 +163,12 @@ export default async function GalerijaPage({
             <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {looks.map((look) => (
                 <div key={look.id} className="border border-ink/10">
-                  <div className="relative aspect-[3/4]">
+                  <div className="relative aspect-[4/3]">
                     <SafeImage
-                      src={look.front_url}
+                      src={look.image_url}
                       alt={look.title}
                       className="h-full w-full object-cover"
                     />
-                  </div>
-                  <div className="grid grid-cols-2 gap-px bg-ink/10">
-                    <div className="relative aspect-square bg-paper">
-                      <SafeImage
-                        src={look.back_url}
-                        alt=""
-                        className="h-full w-full object-cover"
-                      />
-                      <span className="absolute bottom-2 left-2 bg-ink/80 px-2 py-1 text-[9px] tracking-[0.1em] text-paper uppercase">
-                        Pozadi
-                      </span>
-                    </div>
-                    <div className="relative aspect-square bg-paper">
-                      <SafeImage
-                        src={look.side_url}
-                        alt=""
-                        className="h-full w-full object-cover"
-                      />
-                      <span className="absolute bottom-2 left-2 bg-ink/80 px-2 py-1 text-[9px] tracking-[0.1em] text-paper uppercase">
-                        Sa strane
-                      </span>
-                    </div>
                   </div>
                   <p className="px-5 py-4 font-display text-lg italic">
                     {look.title}

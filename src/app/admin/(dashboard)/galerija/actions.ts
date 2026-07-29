@@ -125,21 +125,12 @@ export async function createHairstyleLook(
 
   const supabase = await createClient();
 
-  const front = formData.get("front") as File | null;
-  const back = formData.get("back") as File | null;
-  const side = formData.get("side") as File | null;
-
-  const [frontUrl, backUrl, sideUrl] = await Promise.all([
-    front && front.size > 0 ? uploadToBucket(supabase, front) : null,
-    back && back.size > 0 ? uploadToBucket(supabase, back) : null,
-    side && side.size > 0 ? uploadToBucket(supabase, side) : null,
-  ]);
+  const image = formData.get("image") as File | null;
+  const imageUrl = image && image.size > 0 ? await uploadToBucket(supabase, image) : null;
 
   const { error } = await supabase.from("hairstyle_looks").insert({
     title,
-    front_url: frontUrl,
-    back_url: backUrl,
-    side_url: sideUrl,
+    image_url: imageUrl,
   });
 
   if (error) {
@@ -151,18 +142,12 @@ export async function createHairstyleLook(
   return { status: "idle" };
 }
 
-export async function deleteHairstyleLook(
-  id: string,
-  urls: (string | null)[]
-) {
+export async function deleteHairstyleLook(id: string, url: string | null) {
   const supabase = await createClient();
-  const paths = urls
-    .filter((url): url is string => Boolean(url))
-    .map((url) => url.split(`/${GALLERY_BUCKET}/`).pop())
-    .filter((path): path is string => Boolean(path));
+  const path = url?.split(`/${GALLERY_BUCKET}/`).pop();
 
-  if (paths.length > 0) {
-    await supabase.storage.from(GALLERY_BUCKET).remove(paths);
+  if (path) {
+    await supabase.storage.from(GALLERY_BUCKET).remove([path]);
   }
   await supabase.from("hairstyle_looks").delete().eq("id", id);
 

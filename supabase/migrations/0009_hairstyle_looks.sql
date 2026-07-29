@@ -1,12 +1,9 @@
--- Katalog frizura sa front/back/side prikazom (dio Galerije), npr. "High Fade
--- Buzz Cut" sa tri ugla. Slike su opcione pojedinacno - admin moze dodati
--- naziv stila prvo, pa fotografije naknadno kad ih dobije.
+-- Katalog frizura (dio Galerije), npr. "High Fade Buzz Cut" - jedna slika
+-- po frizuri koja vec sadrzi sva tri ugla (front/back/side kolaz).
 create table if not exists public.hairstyle_looks (
   id uuid primary key default gen_random_uuid(),
   title text not null,
-  front_url text,
-  back_url text,
-  side_url text,
+  image_url text,
   created_at timestamptz not null default now()
 );
 
