@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { SafeImage } from "@/components/safe-image";
+import { PublicReviewForm } from "@/components/public-review-form";
 
 // Privremene stock fotografije (Unsplash) dok salon ne nabavi svoje.
 // TODO: zamijeniti pravim fotografijama prostora/osoblja prije lansiranja -
@@ -42,7 +43,12 @@ export default async function Home() {
   ] = await Promise.all([
     supabase.from("services").select("*").order("category").order("name").limit(4),
     supabase.from("staff").select("*").order("name"),
-    supabase.from("reviews").select("*").order("created_at", { ascending: false }).limit(6),
+    supabase
+      .from("reviews")
+      .select("*")
+      .eq("approved", true)
+      .order("created_at", { ascending: false })
+      .limit(6),
     admin
       .from("appointments")
       .select("id", { count: "exact", head: true })
@@ -325,6 +331,16 @@ export default async function Home() {
             ) : (
               <p className="text-sm text-ink-dim">Recenzije uskoro.</p>
             )}
+
+            <Reveal className="mt-16 block max-w-md">
+              <p className="mb-2 font-display text-xl italic">
+                Podijelite Vaše iskustvo
+              </p>
+              <p className="mb-6 text-sm text-ink-dim">
+                Vaša recenzija se objavljuje nakon kratkog pregleda.
+              </p>
+              <PublicReviewForm />
+            </Reveal>
           </div>
         </section>
       </div>

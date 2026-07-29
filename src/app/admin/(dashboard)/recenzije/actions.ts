@@ -24,7 +24,9 @@ export async function createReview(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.from("reviews").insert({ author_name, rating, body });
+  const { error } = await supabase
+    .from("reviews")
+    .insert({ author_name, rating, body, approved: true });
 
   if (error) {
     return { status: "error", message: "Došlo je do greške. Pokušajte ponovo." };
@@ -33,6 +35,13 @@ export async function createReview(
   revalidatePath("/admin/recenzije");
   revalidatePath("/");
   return { status: "idle" };
+}
+
+export async function approveReview(id: string) {
+  const supabase = await createClient();
+  await supabase.from("reviews").update({ approved: true }).eq("id", id);
+  revalidatePath("/admin/recenzije");
+  revalidatePath("/");
 }
 
 export async function deleteReview(id: string) {

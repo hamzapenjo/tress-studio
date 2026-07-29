@@ -6,6 +6,9 @@ const BOOKING_MAX_ATTEMPTS = 3;
 const CONTACT_WINDOW_MINUTES = 15;
 const CONTACT_MAX_ATTEMPTS = 3;
 
+const REVIEW_WINDOW_MINUTES = 15;
+const REVIEW_MAX_ATTEMPTS = 3;
+
 function minutesAgoIso(minutes: number) {
   return new Date(Date.now() - minutes * 60_000).toISOString();
 }
@@ -32,4 +35,15 @@ export async function isContactRateLimited(contact: string): Promise<boolean> {
     .gte("created_at", minutesAgoIso(CONTACT_WINDOW_MINUTES));
 
   return (count ?? 0) >= CONTACT_MAX_ATTEMPTS;
+}
+
+export async function isReviewRateLimited(authorName: string): Promise<boolean> {
+  const supabase = createAdminClient();
+  const { count } = await supabase
+    .from("reviews")
+    .select("id", { count: "exact", head: true })
+    .eq("author_name", authorName)
+    .gte("created_at", minutesAgoIso(REVIEW_WINDOW_MINUTES));
+
+  return (count ?? 0) >= REVIEW_MAX_ATTEMPTS;
 }

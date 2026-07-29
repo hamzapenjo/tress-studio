@@ -160,6 +160,7 @@ export interface Database {
           author_name: string;
           rating: number;
           body: string;
+          approved: boolean;
           created_at: string;
         };
         Insert: {
@@ -167,6 +168,7 @@ export interface Database {
           author_name: string;
           rating: number;
           body: string;
+          approved?: boolean;
           created_at?: string;
         };
         Update: {
@@ -174,6 +176,7 @@ export interface Database {
           author_name?: string;
           rating?: number;
           body?: string;
+          approved?: boolean;
           created_at?: string;
         };
         Relationships: [];
