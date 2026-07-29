@@ -27,11 +27,15 @@ export default function KontaktPage() {
 
         <div className="grid grid-cols-1 items-stretch gap-16 sm:grid-cols-2">
           <Reveal delay={60} className="block h-full">
-            <div className="flex h-full flex-col border border-ink/10">
-              {INFO.map((item) => (
+            <div className="flex h-full flex-col justify-between border border-ink/10">
+              {INFO.map((item, i) => (
                 <div
                   key={item.label}
-                  className="border-b border-ink/10 px-6 py-6"
+                  className={
+                    i < INFO.length - 1
+                      ? "border-b border-ink/10 px-6 py-6"
+                      : "px-6 py-6"
+                  }
                 >
                   <h2 className="mb-2 text-xs tracking-[0.14em] text-ink-dim uppercase">
                     {item.label}
@@ -41,21 +45,6 @@ export default function KontaktPage() {
                   </p>
                 </div>
               ))}
-              <div className="flex flex-1 flex-col px-6 py-6">
-                <h2 className="mb-3 text-xs tracking-[0.14em] text-ink-dim uppercase">
-                  Lokacija
-                </h2>
-                <div className="min-h-[160px] w-full flex-1 overflow-hidden border border-ink/10">
-                  <iframe
-                    title="Lokacija - Maršala Tita 45, Sarajevo"
-                    src="https://www.google.com/maps?q=Mar%C5%A1ala+Tita+45%2C+Sarajevo%2C+Bosna+i+Hercegovina&output=embed"
-                    className="h-full w-full grayscale"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </div>
-              </div>
             </div>
           </Reveal>
 
@@ -68,6 +57,22 @@ export default function KontaktPage() {
             </div>
           </Reveal>
         </div>
+
+        <Reveal delay={160} className="mt-16 block">
+          <h2 className="mb-6 text-xs tracking-[0.14em] text-ink-dim uppercase">
+            Lokacija
+          </h2>
+          <div className="aspect-[21/9] w-full overflow-hidden border border-ink/10">
+            <iframe
+              title="Lokacija - Maršala Tita 45, Sarajevo"
+              src="https://www.google.com/maps?q=Mar%C5%A1ala+Tita+45%2C+Sarajevo%2C+Bosna+i+Hercegovina&output=embed"
+              className="h-full w-full grayscale"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </Reveal>
       </div>
     </main>
   );
