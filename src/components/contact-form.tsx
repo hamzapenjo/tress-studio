@@ -21,7 +21,7 @@ export function ContactForm() {
   }
 
   return (
-    <form action={formAction} className="flex flex-col gap-5">
+    <form action={formAction} className="flex h-full flex-col gap-5">
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className={labelClass}>
           Ime i prezime *
@@ -36,11 +36,16 @@ export function ContactForm() {
         <input id="contact" name="contact" type="text" required className={fieldClass} />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-2">
         <label htmlFor="body" className={labelClass}>
           Poruka *
         </label>
-        <textarea id="body" name="body" rows={4} required className={fieldClass} />
+        <textarea
+          id="body"
+          name="body"
+          required
+          className={fieldClass + " flex-1 resize-none"}
+        />
       </div>
 
       {state.status === "error" && (
