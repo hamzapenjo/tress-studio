@@ -2,7 +2,13 @@
 
 import { useRef, useState, type DragEvent } from "react";
 
-export function ImageDropzone({ name }: { name: string }) {
+export function ImageDropzone({
+  name,
+  multiple = true,
+}: {
+  name: string;
+  multiple?: boolean;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [dragOver, setDragOver] = useState(false);
@@ -14,11 +20,23 @@ export function ImageDropzone({ name }: { name: string }) {
   function handleDrop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     setDragOver(false);
-    if (inputRef.current) {
-      inputRef.current.files = e.dataTransfer.files;
+
+    let files = e.dataTransfer.files;
+    if (!multiple && files.length > 1) {
+      const single = new DataTransfer();
+      single.items.add(files[0]);
+      files = single.files;
     }
-    updateFromFileList(e.dataTransfer.files);
+
+    if (inputRef.current) {
+      inputRef.current.files = files;
+    }
+    updateFromFileList(files);
   }
+
+  const placeholder = multiple
+    ? "Prevucite slike ovdje ili kliknite za odabir"
+    : "Prevucite sliku ovdje ili kliknite za odabir";
 
   return (
     <div
@@ -31,7 +49,7 @@ export function ImageDropzone({ name }: { name: string }) {
       onClick={() => inputRef.current?.click()}
       role="button"
       tabIndex={0}
-      className={`flex flex-col items-center justify-center gap-2 border border-dashed px-4 py-8 text-center transition-colors ${
+      className={`flex flex-col items-center justify-center gap-2 border border-dashed px-4 py-6 text-center transition-colors ${
         dragOver ? "border-brass bg-brass/5" : "border-paper/20 hover:border-paper/40"
       }`}
     >
@@ -40,14 +58,16 @@ export function ImageDropzone({ name }: { name: string }) {
         type="file"
         name={name}
         accept="image/*"
-        multiple
+        multiple={multiple}
         className="hidden"
         onChange={(e) => updateFromFileList(e.target.files)}
       />
       <span className="font-mono text-xs tracking-[0.08em] text-paper-dim uppercase">
         {fileNames.length > 0
-          ? `${fileNames.length} ${fileNames.length === 1 ? "slika odabrana" : "slika odabrano"}`
-          : "Prevucite slike ovdje ili kliknite za odabir"}
+          ? multiple
+            ? `${fileNames.length} ${fileNames.length === 1 ? "slika odabrana" : "slika odabrano"}`
+            : "Slika odabrana"
+          : placeholder}
       </span>
       {fileNames.length > 0 && (
         <span className="max-w-full truncate px-2 text-[10px] text-paper-dim/70">

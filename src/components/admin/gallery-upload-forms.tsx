@@ -32,15 +32,39 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
 
   const singleFormRef = useRef<HTMLFormElement>(null);
   const singleWasPending = useRef(false);
-  const [dropzoneKey, setDropzoneKey] = useState(0);
+  const [singleDropzoneKey, setSingleDropzoneKey] = useState(0);
 
   useEffect(() => {
     if (singleWasPending.current && !singlePending && singleState.status === "idle") {
       singleFormRef.current?.reset();
-      setDropzoneKey((k) => k + 1);
+      setSingleDropzoneKey((k) => k + 1);
     }
     singleWasPending.current = singlePending;
   }, [singlePending, singleState]);
+
+  const pairFormRef = useRef<HTMLFormElement>(null);
+  const pairWasPending = useRef(false);
+  const [pairDropzoneKey, setPairDropzoneKey] = useState(0);
+
+  useEffect(() => {
+    if (pairWasPending.current && !pairPending && pairState.status === "idle") {
+      pairFormRef.current?.reset();
+      setPairDropzoneKey((k) => k + 1);
+    }
+    pairWasPending.current = pairPending;
+  }, [pairPending, pairState]);
+
+  const lookFormRef = useRef<HTMLFormElement>(null);
+  const lookWasPending = useRef(false);
+  const [lookDropzoneKey, setLookDropzoneKey] = useState(0);
+
+  useEffect(() => {
+    if (lookWasPending.current && !lookPending && lookState.status === "idle") {
+      lookFormRef.current?.reset();
+      setLookDropzoneKey((k) => k + 1);
+    }
+    lookWasPending.current = lookPending;
+  }, [lookPending, lookState]);
 
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -64,7 +88,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
         </div>
         <div className="flex flex-col gap-1.5">
           <label className={labelClass}>Slike (možete odabrati više odjednom)</label>
-          <ImageDropzone key={dropzoneKey} name="files" />
+          <ImageDropzone key={singleDropzoneKey} name="files" />
         </div>
         {singleState.status === "error" && (
           <p className="text-sm text-wine">{singleState.message}</p>
@@ -79,6 +103,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
       </form>
 
       <form
+        ref={pairFormRef}
         action={pairAction}
         className="flex flex-col gap-4 border border-paper/10 p-6"
       >
@@ -97,23 +122,11 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
         </div>
         <div className="flex flex-col gap-1.5">
           <label className={labelClass}>Slika &mdash; prije</label>
-          <input
-            type="file"
-            name="before"
-            accept="image/*"
-            required
-            className={fieldClass}
-          />
+          <ImageDropzone key={`before-${pairDropzoneKey}`} name="before" multiple={false} />
         </div>
         <div className="flex flex-col gap-1.5">
           <label className={labelClass}>Slika &mdash; poslije</label>
-          <input
-            type="file"
-            name="after"
-            accept="image/*"
-            required
-            className={fieldClass}
-          />
+          <ImageDropzone key={`after-${pairDropzoneKey}`} name="after" multiple={false} />
         </div>
         {pairState.status === "error" && (
           <p className="text-sm text-wine">{pairState.message}</p>
@@ -128,6 +141,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
       </form>
 
       <form
+        ref={lookFormRef}
         action={lookAction}
         className="flex flex-col gap-4 border border-paper/10 p-6"
       >
@@ -146,7 +160,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
         </div>
         <div className="flex flex-col gap-1.5">
           <label className={labelClass}>Slika (front/back/side kolaž)</label>
-          <input type="file" name="image" accept="image/*" className={fieldClass} />
+          <ImageDropzone key={lookDropzoneKey} name="image" multiple={false} />
         </div>
         <p className="text-xs text-paper-dim">
           Slika je opciona - možete dodati naziv sad, a fotografiju naknadno.
