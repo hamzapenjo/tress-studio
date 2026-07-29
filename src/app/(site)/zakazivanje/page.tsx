@@ -11,7 +11,7 @@ export default async function ZakazivanjePage() {
 
   return (
     <main className="flex-1 bg-paper text-ink">
-      <div className="mx-auto w-full max-w-xl px-6 py-20">
+      <div className="mx-auto w-full max-w-4xl px-6 py-20">
         <p className="mb-3 text-xs tracking-[0.2em] text-brass uppercase">
           Rezervacija
         </p>

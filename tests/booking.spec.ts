@@ -54,7 +54,7 @@ test.describe("Zakazivanje termina", () => {
     await page.getByRole("button", { name: "Dalje" }).click();
 
     // Korak: osoblje (opcionalan, preskace se ako postoji)
-    if (await page.getByText("Osoblje", { exact: true }).isVisible()) {
+    if (await page.locator("label", { hasText: "Osoblje" }).isVisible()) {
       await page.getByRole("button", { name: "Dalje" }).click();
     }
 
