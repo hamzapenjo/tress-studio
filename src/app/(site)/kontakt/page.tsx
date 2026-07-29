@@ -10,22 +10,22 @@ const INFO = [
 export default function KontaktPage() {
   return (
     <main className="flex-1 bg-paper text-ink">
-      <div className="mx-auto w-full max-w-5xl px-6 py-20 sm:py-28">
+      <div className="mx-auto w-full max-w-5xl px-6 py-5 sm:py-6">
         <Reveal>
-          <p className="mb-3 text-xs tracking-[0.2em] text-brass uppercase">
+          <p className="mb-1.5 text-xs tracking-[0.2em] text-brass uppercase">
             Kontakt
           </p>
-          <h1 className="mb-5 font-display text-4xl italic sm:text-5xl">
+          <h1 className="mb-2 font-display text-2xl italic sm:text-3xl">
             Posjetite nas
           </h1>
-          <p className="mb-16 max-w-[52ch] text-sm leading-relaxed text-ink-dim">
+          <p className="mb-5 max-w-[52ch] text-sm leading-relaxed text-ink-dim">
             Za zakazivanje termina koristite stranicu Zakazivanje. Za sva
             ostala pitanja, slobodno nas kontaktirajte putem forme ispod ili
             telefonom.
           </p>
         </Reveal>
 
-        <div className="grid grid-cols-1 items-stretch gap-16 sm:grid-cols-2">
+        <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2">
           <Reveal delay={60} className="block h-full">
             <div className="flex h-full flex-col justify-between border border-ink/10">
               {INFO.map((item, i) => (
@@ -33,14 +33,14 @@ export default function KontaktPage() {
                   key={item.label}
                   className={
                     i < INFO.length - 1
-                      ? "border-b border-ink/10 px-6 py-6"
-                      : "px-6 py-6"
+                      ? "border-b border-ink/10 px-5 py-2.5"
+                      : "px-5 py-2.5"
                   }
                 >
-                  <h2 className="mb-2 text-xs tracking-[0.14em] text-ink-dim uppercase">
+                  <h2 className="mb-1 text-xs tracking-[0.14em] text-ink-dim uppercase">
                     {item.label}
                   </h2>
-                  <p className="font-display text-lg whitespace-pre-line italic">
+                  <p className="font-display text-base whitespace-pre-line italic">
                     {item.value}
                   </p>
                 </div>
@@ -50,7 +50,7 @@ export default function KontaktPage() {
 
           <Reveal delay={120} className="block h-full">
             <div className="flex h-full flex-col">
-              <h2 className="mb-6 text-xs tracking-[0.14em] text-ink-dim uppercase">
+              <h2 className="mb-2 text-xs tracking-[0.14em] text-ink-dim uppercase">
                 Pošaljite nam poruku
               </h2>
               <ContactForm />
@@ -58,11 +58,11 @@ export default function KontaktPage() {
           </Reveal>
         </div>
 
-        <Reveal delay={160} className="mt-16 block">
-          <h2 className="mb-6 text-xs tracking-[0.14em] text-ink-dim uppercase">
+        <Reveal delay={160} className="mt-5 block">
+          <h2 className="mb-2 text-xs tracking-[0.14em] text-ink-dim uppercase">
             Lokacija
           </h2>
-          <div className="aspect-[21/9] w-full overflow-hidden border border-ink/10">
+          <div className="h-20 w-full overflow-hidden border border-ink/10 sm:h-24">
             <iframe
               title="Lokacija - Maršala Tita 45, Sarajevo"
               src="https://www.google.com/maps?q=Mar%C5%A1ala+Tita+45%2C+Sarajevo%2C+Bosna+i+Hercegovina&output=embed"

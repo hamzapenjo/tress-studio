@@ -21,22 +21,22 @@ export function ContactForm() {
   }
 
   return (
-    <form action={formAction} className="flex h-full flex-col gap-5">
-      <div className="flex flex-col gap-2">
+    <form action={formAction} className="flex h-full flex-col gap-3">
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="name" className={labelClass}>
           Ime i prezime *
         </label>
         <input id="name" name="name" type="text" required className={fieldClass} />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="contact" className={labelClass}>
           Telefon ili email *
         </label>
         <input id="contact" name="contact" type="text" required className={fieldClass} />
       </div>
 
-      <div className="flex flex-1 flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-1.5">
         <label htmlFor="body" className={labelClass}>
           Poruka *
         </label>
@@ -55,7 +55,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="self-start bg-brass px-7 py-3 text-sm text-ink transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="self-start bg-brass px-7 py-2.5 text-sm text-ink transition-opacity hover:opacity-90 disabled:opacity-50"
       >
         {isPending ? "Slanje..." : "Pošaljite poruku"}
       </button>
