@@ -2,14 +2,20 @@ import { createClient } from "@/lib/supabase/server";
 import { GalleryUploadForms } from "@/components/admin/gallery-upload-forms";
 import { linkDangerClass } from "@/components/admin/field-styles";
 import { SafeImage } from "@/components/safe-image";
-import { deleteImage } from "./actions";
+import { deleteImage, deleteHairstyleLook } from "./actions";
 
 export default async function AdminGalerijaPage() {
   const supabase = await createClient();
-  const { data: images } = await supabase
-    .from("gallery_images")
-    .select("id, url, category, pair_key, pair_label")
-    .order("created_at", { ascending: false });
+  const [{ data: images }, { data: looks }] = await Promise.all([
+    supabase
+      .from("gallery_images")
+      .select("id, url, category, pair_key, pair_label")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("hairstyle_looks")
+      .select("*")
+      .order("created_at", { ascending: false }),
+  ]);
 
   const all = images ?? [];
   const categories = Array.from(new Set(all.map((image) => image.category))).sort();
@@ -46,6 +52,47 @@ export default async function AdminGalerijaPage() {
                   {image.category}
                 </span>
                 <form action={deleteImage.bind(null, image.id, image.url)}>
+                  <button type="submit" className={linkDangerClass + " w-full"}>
+                    Obriši
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+          Frizure ({(looks ?? []).length})
+        </h2>
+        {(looks ?? []).length === 0 ? (
+          <p className="text-sm text-paper-dim">Nema dodanih frizura.</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {(looks ?? []).map((look) => (
+              <div key={look.id} className="flex flex-col gap-2 border border-paper/10 p-3">
+                <div className="relative aspect-[3/4]">
+                  <SafeImage src={look.front_url} alt="" className="h-full w-full object-cover" />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="relative aspect-square">
+                    <SafeImage src={look.back_url} alt="" className="h-full w-full object-cover" />
+                  </div>
+                  <div className="relative aspect-square">
+                    <SafeImage src={look.side_url} alt="" className="h-full w-full object-cover" />
+                  </div>
+                </div>
+                <span className="font-mono text-[10px] text-paper-dim uppercase">
+                  {look.title}
+                </span>
+                <form
+                  action={deleteHairstyleLook.bind(null, look.id, [
+                    look.front_url,
+                    look.back_url,
+                    look.side_url,
+                  ])}
+                >
                   <button type="submit" className={linkDangerClass + " w-full"}>
                     Obriši
                   </button>

@@ -235,6 +235,33 @@ export interface Database {
         };
         Relationships: [];
       };
+      hairstyle_looks: {
+        Row: {
+          id: string;
+          title: string;
+          front_url: string | null;
+          back_url: string | null;
+          side_url: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          front_url?: string | null;
+          back_url?: string | null;
+          side_url?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          front_url?: string | null;
+          back_url?: string | null;
+          side_url?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
