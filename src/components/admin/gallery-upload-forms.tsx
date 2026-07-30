@@ -130,9 +130,9 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
       <form
         ref={singleFormRef}
         onSubmit={handleSingleSubmit}
-        className="flex flex-col gap-4 border border-paper/10 p-6"
+        className="flex flex-col gap-4 border border-ink/10 p-6"
       >
-        <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Dodaj slike
         </h2>
         <div className="flex flex-col gap-1.5">
@@ -164,9 +164,9 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
       <form
         ref={pairFormRef}
         onSubmit={handlePairSubmit}
-        className="flex flex-col gap-4 border border-paper/10 p-6"
+        className="flex flex-col gap-4 border border-ink/10 p-6"
       >
-        <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Dodaj par (prije / poslije)
         </h2>
         <div className="flex flex-col gap-1.5">
@@ -210,9 +210,9 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
       <form
         ref={lookFormRef}
         onSubmit={handleLookSubmit}
-        className="flex flex-col gap-4 border border-paper/10 p-6"
+        className="flex flex-col gap-4 border border-ink/10 p-6"
       >
-        <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Dodaj frizuru
         </h2>
         <div className="flex flex-col gap-1.5">
@@ -233,7 +233,7 @@ export function GalleryUploadForms({ categories }: { categories: string[] }) {
             onFilesChange={(files) => setLookFile(files[0] ?? null)}
           />
         </div>
-        <p className="text-xs text-paper-dim">
+        <p className="text-xs text-ink-dim">
           Slika je opciona - možete dodati naziv sad, a fotografiju naknadno.
         </p>
         {lookState.status === "error" && (

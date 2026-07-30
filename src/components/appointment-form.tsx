@@ -61,6 +61,7 @@ export function AppointmentForm({
             value: service.id,
             label: service.name,
           }))}
+          variant="light"
         />
       </div>
 
@@ -76,18 +77,19 @@ export function AppointmentForm({
               value: member.id,
               label: member.name,
             }))}
+            variant="light"
           />
         </div>
       )}
 
       <div className="flex flex-col gap-2">
         <label className={labelClass}>Datum</label>
-        <DatePicker key={`date-${resetKey}`} name="date" />
+        <DatePicker key={`date-${resetKey}`} name="date" variant="light" />
       </div>
 
       <div className="flex flex-col gap-2">
         <label className={labelClass}>Vrijeme</label>
-        <TimeInput key={`time-${resetKey}`} name="time" />
+        <TimeInput key={`time-${resetKey}`} name="time" variant="light" />
       </div>
 
       <div className="flex flex-col gap-2">

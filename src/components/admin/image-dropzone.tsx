@@ -52,7 +52,7 @@ export function ImageDropzone({
       role="button"
       tabIndex={0}
       className={`flex flex-col items-center justify-center gap-2 border border-dashed px-4 py-6 text-center transition-colors ${
-        dragOver ? "border-brass bg-brass/5" : "border-paper/20 hover:border-paper/40"
+        dragOver ? "border-brass bg-brass/5" : "border-ink/20 hover:border-ink/40"
       }`}
     >
       <input
@@ -63,7 +63,7 @@ export function ImageDropzone({
         className="hidden"
         onChange={(e) => updateFromFileList(e.target.files)}
       />
-      <span className="font-mono text-xs tracking-[0.08em] text-paper-dim uppercase">
+      <span className="font-mono text-xs tracking-[0.08em] text-ink-dim uppercase">
         {fileNames.length > 0
           ? multiple
             ? `${fileNames.length} ${fileNames.length === 1 ? "slika odabrana" : "slika odabrano"}`
@@ -71,7 +71,7 @@ export function ImageDropzone({
           : placeholder}
       </span>
       {fileNames.length > 0 && (
-        <span className="max-w-full truncate px-2 text-[10px] text-paper-dim/70">
+        <span className="max-w-full truncate px-2 text-[10px] text-ink-dim/70">
           {fileNames.join(", ")}
         </span>
       )}

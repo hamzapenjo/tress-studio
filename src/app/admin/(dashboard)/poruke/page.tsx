@@ -20,24 +20,24 @@ export default async function AdminPorukePage() {
           <div
             key={message.id}
             className={`flex flex-col gap-2 border p-5 ${
-              message.read ? "border-paper/10" : "border-brass/40 bg-brass/[0.06]"
+              message.read ? "border-ink/10" : "border-brass/40 bg-brass/[0.06]"
             }`}
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2 font-mono text-sm">
-                <span className="text-paper">{message.name}</span>
-                <span className="text-paper-dim">· {message.contact}</span>
+                <span className="text-ink">{message.name}</span>
+                <span className="text-ink-dim">· {message.contact}</span>
                 {!message.read && (
                   <span className="border border-brass/50 px-1.5 py-0.5 font-mono text-[10px] tracking-[0.05em] text-brass uppercase">
                     Novo
                   </span>
                 )}
               </div>
-              <span className="font-mono text-xs text-paper-dim">
+              <span className="font-mono text-xs text-ink-dim">
                 {new Date(message.created_at).toLocaleString("bs-BA")}
               </span>
             </div>
-            <p className="text-sm text-paper-dim whitespace-pre-wrap">
+            <p className="text-sm text-ink-dim whitespace-pre-wrap">
               {message.body}
             </p>
             <form action={deleteMessage.bind(null, message.id)}>
@@ -48,7 +48,7 @@ export default async function AdminPorukePage() {
           </div>
         ))}
         {(!messages || messages.length === 0) && (
-          <p className="text-sm text-paper-dim">Nema poruka.</p>
+          <p className="text-sm text-ink-dim">Nema poruka.</p>
         )}
       </div>
     </div>

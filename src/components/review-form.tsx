@@ -47,6 +47,7 @@ export function ReviewForm() {
           defaultValue="5"
           options={ratingOptions}
           className={selectTriggerClass}
+          variant="light"
         />
       </div>
 

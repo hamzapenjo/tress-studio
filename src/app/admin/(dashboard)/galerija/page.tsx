@@ -27,11 +27,11 @@ export default async function AdminGalerijaPage() {
       <GalleryUploadForms categories={categories} />
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Sve slike ({all.length})
         </h2>
         {all.length === 0 ? (
-          <p className="text-sm text-paper-dim">Galerija je prazna.</p>
+          <p className="text-sm text-ink-dim">Galerija je prazna.</p>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
             {all.map((image) => (
@@ -48,7 +48,7 @@ export default async function AdminGalerijaPage() {
                     </span>
                   )}
                 </div>
-                <span className="font-mono text-[10px] text-paper-dim uppercase">
+                <span className="font-mono text-[10px] text-ink-dim uppercase">
                   {image.category}
                 </span>
                 <form action={deleteImage.bind(null, image.id, image.url)}>
@@ -63,19 +63,19 @@ export default async function AdminGalerijaPage() {
       </div>
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Frizure ({(looks ?? []).length})
         </h2>
         {(looks ?? []).length === 0 ? (
-          <p className="text-sm text-paper-dim">Nema dodanih frizura.</p>
+          <p className="text-sm text-ink-dim">Nema dodanih frizura.</p>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {(looks ?? []).map((look) => (
-              <div key={look.id} className="flex flex-col gap-2 border border-paper/10 p-3">
+              <div key={look.id} className="flex flex-col gap-2 border border-ink/10 p-3">
                 <div className="relative aspect-[4/3]">
                   <SafeImage src={look.image_url} alt="" className="h-full w-full object-cover" />
                 </div>
-                <span className="font-mono text-[10px] text-paper-dim uppercase">
+                <span className="font-mono text-[10px] text-ink-dim uppercase">
                   {look.title}
                 </span>
                 <form action={deleteHairstyleLook.bind(null, look.id, look.image_url)}>

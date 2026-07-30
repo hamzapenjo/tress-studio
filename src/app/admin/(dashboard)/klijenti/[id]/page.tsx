@@ -5,7 +5,7 @@ import { updateCustomer } from "../actions";
 import type { AppointmentStatus } from "@/lib/database.types";
 
 const dotColor: Record<AppointmentStatus, string> = {
-  na_cekanju: "bg-paper-dim",
+  na_cekanju: "bg-ink-dim",
   potvrdjeno: "bg-brass",
   zavrseno: "bg-good",
   otkazano: "bg-wine",
@@ -39,40 +39,40 @@ export default async function CustomerDetailPage({
       </div>
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Historija termina
         </h2>
-        <div className="overflow-x-auto border border-paper/10">
+        <div className="overflow-x-auto border border-ink/10">
           <table className="w-full text-left font-mono text-sm">
             <thead>
               <tr>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Datum
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Vrijeme
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Usluga
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Status
                 </th>
               </tr>
             </thead>
             <tbody>
               {appointments?.map((appointment) => (
-                <tr key={appointment.id} className="hover:bg-paper/[0.03]">
-                  <td className="border-b border-paper/10 px-4 py-3 tabular-nums">
+                <tr key={appointment.id} className="hover:bg-ink/[0.03]">
+                  <td className="border-b border-ink/10 px-4 py-3 tabular-nums">
                     {appointment.appointment_date}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3 tabular-nums">
+                  <td className="border-b border-ink/10 px-4 py-3 tabular-nums">
                     {appointment.appointment_time}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {appointment.services?.name}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     <span
                       className={`mr-2 inline-block h-1.5 w-1.5 rounded-full ${dotColor[appointment.status]}`}
                     />
@@ -82,7 +82,7 @@ export default async function CustomerDetailPage({
               ))}
               {(!appointments || appointments.length === 0) && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-paper-dim">
+                  <td colSpan={4} className="px-4 py-8 text-center text-ink-dim">
                     Nema termina.
                   </td>
                 </tr>

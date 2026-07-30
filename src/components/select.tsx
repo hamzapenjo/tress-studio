@@ -57,7 +57,9 @@ export function Select({
         onClick={() => setOpen((o) => !o)}
         className={
           className ??
-          "flex w-full items-center justify-between gap-2 border border-paper/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-paper focus:border-brass focus:outline-none"
+          (variant === "light"
+            ? "flex w-full items-center justify-between gap-2 border border-ink/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-ink focus:border-brass focus:outline-none"
+            : "flex w-full items-center justify-between gap-2 border border-paper/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-paper focus:border-brass focus:outline-none")
         }
       >
         <span

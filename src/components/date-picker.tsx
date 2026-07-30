@@ -87,10 +87,19 @@ export function DatePicker({
         onClick={() => setOpen((o) => !o)}
         className={
           triggerClassName ??
-          "flex w-full items-center justify-between gap-2 border border-paper/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-paper focus:border-brass focus:outline-none"
+          (variant === "light"
+            ? "flex w-full items-center justify-between gap-2 border border-ink/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-ink focus:border-brass focus:outline-none"
+            : "flex w-full items-center justify-between gap-2 border border-paper/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-paper focus:border-brass focus:outline-none")
         }
       >
-        <span className={value ? "" : (mutedClassName ?? "text-paper-dim/60")}>
+        <span
+          className={
+            value
+              ? ""
+              : (mutedClassName ??
+                (variant === "light" ? "text-ink-dim/60" : "text-paper-dim/60"))
+          }
+        >
           {value ? formatDisplay(fromISO(value)) : "dd.mm.gggg."}
         </span>
         <svg

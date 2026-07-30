@@ -125,15 +125,15 @@ export default async function AdminDashboardPage() {
             key={card.label}
             href={card.href}
             className={`flex flex-col gap-2 border p-6 transition-colors hover:border-brass ${
-              card.highlight ? "border-brass/50 bg-brass/5" : "border-paper/10"
+              card.highlight ? "border-brass/50 bg-brass/5" : "border-ink/10"
             }`}
           >
-            <span className="font-mono text-xs tracking-[0.1em] text-paper-dim uppercase">
+            <span className="font-mono text-xs tracking-[0.1em] text-ink-dim uppercase">
               {card.label}
             </span>
             <span
               className={`font-display text-3xl italic sm:text-4xl ${
-                card.accent ? "text-brass" : "text-paper"
+                card.accent ? "text-brass" : "text-ink"
               }`}
             >
               {card.value}
@@ -150,30 +150,30 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         <div>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+            <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
               Sljedeći termini
             </h2>
             <Link
               href="/admin/termini"
-              className="font-mono text-xs tracking-[0.08em] text-paper-dim/70 uppercase transition-colors hover:text-brass"
+              className="font-mono text-xs tracking-[0.08em] text-ink-dim/70 uppercase transition-colors hover:text-brass"
             >
               Svi termini →
             </Link>
           </div>
           {(upcoming ?? []).length === 0 ? (
-            <p className="font-mono text-sm text-paper-dim">Nema nadolazećih termina.</p>
+            <p className="font-mono text-sm text-ink-dim">Nema nadolazećih termina.</p>
           ) : (
             <ol className="flex flex-col">
               {(upcoming ?? []).map((appointment) => (
                 <li
                   key={appointment.id}
-                  className="flex items-center justify-between border-b border-paper/10 py-3 first:border-t"
+                  className="flex items-center justify-between border-b border-ink/10 py-3 first:border-t"
                 >
                   <div>
                     <p className="font-display italic">
                       {appointment.customers?.name ?? "-"}
                     </p>
-                    <p className="font-mono text-xs text-paper-dim">
+                    <p className="font-mono text-xs text-ink-dim">
                       {appointment.services?.name ?? "-"}
                     </p>
                   </div>
@@ -181,7 +181,7 @@ export default async function AdminDashboardPage() {
                     <p className="font-mono text-sm tabular-nums">
                       {appointment.appointment_date} {appointment.appointment_time}
                     </p>
-                    <p className="font-mono text-xs text-paper-dim">
+                    <p className="font-mono text-xs text-ink-dim">
                       {STATUS_LABELS[appointment.status]}
                     </p>
                   </div>
@@ -194,27 +194,27 @@ export default async function AdminDashboardPage() {
         <div className="flex flex-col gap-10">
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+              <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
                 Najtraženije usluge
               </h2>
               <Link
                 href="/admin/statistika"
-                className="font-mono text-xs tracking-[0.08em] text-paper-dim/70 uppercase transition-colors hover:text-brass"
+                className="font-mono text-xs tracking-[0.08em] text-ink-dim/70 uppercase transition-colors hover:text-brass"
               >
                 Sva statistika →
               </Link>
             </div>
             {topServices.length === 0 ? (
-              <p className="font-mono text-sm text-paper-dim">Nema dovoljno podataka.</p>
+              <p className="font-mono text-sm text-ink-dim">Nema dovoljno podataka.</p>
             ) : (
               <ol className="flex flex-col">
                 {topServices.map(([name, count]) => (
                   <li
                     key={name}
-                    className="flex items-center justify-between border-b border-paper/10 py-3 first:border-t"
+                    className="flex items-center justify-between border-b border-ink/10 py-3 first:border-t"
                   >
                     <span className="font-display italic">{name}</span>
-                    <span className="font-mono text-sm text-paper-dim tabular-nums">
+                    <span className="font-mono text-sm text-ink-dim tabular-nums">
                       {count}x
                     </span>
                   </li>
@@ -225,24 +225,24 @@ export default async function AdminDashboardPage() {
 
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+              <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
                 Nedavne poruke
               </h2>
               <Link
                 href="/admin/poruke"
-                className="font-mono text-xs tracking-[0.08em] text-paper-dim/70 uppercase transition-colors hover:text-brass"
+                className="font-mono text-xs tracking-[0.08em] text-ink-dim/70 uppercase transition-colors hover:text-brass"
               >
                 Sve poruke →
               </Link>
             </div>
             {(recentMessages ?? []).length === 0 ? (
-              <p className="font-mono text-sm text-paper-dim">Nema poruka.</p>
+              <p className="font-mono text-sm text-ink-dim">Nema poruka.</p>
             ) : (
               <ol className="flex flex-col">
                 {(recentMessages ?? []).map((message) => (
                   <li
                     key={message.id}
-                    className="flex items-start justify-between gap-4 border-b border-paper/10 py-3 first:border-t"
+                    className="flex items-start justify-between gap-4 border-b border-ink/10 py-3 first:border-t"
                   >
                     <div className="min-w-0">
                       <p className="flex items-center gap-2 font-display italic">
@@ -251,7 +251,7 @@ export default async function AdminDashboardPage() {
                           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brass" />
                         )}
                       </p>
-                      <p className="truncate font-mono text-xs text-paper-dim">
+                      <p className="truncate font-mono text-xs text-ink-dim">
                         {message.body}
                       </p>
                     </div>

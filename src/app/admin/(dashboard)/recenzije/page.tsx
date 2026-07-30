@@ -17,31 +17,31 @@ function ReviewsTable({
   showApprove?: boolean;
 }) {
   return (
-    <div className="overflow-x-auto border border-paper/10">
+    <div className="overflow-x-auto border border-ink/10">
       <table className="w-full text-left font-mono text-sm">
         <thead>
           <tr>
-            <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+            <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
               Klijent
             </th>
-            <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+            <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
               Ocjena
             </th>
-            <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+            <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
               Tekst
             </th>
-            <th className="border-b border-paper/10 px-4 py-3"></th>
+            <th className="border-b border-ink/10 px-4 py-3"></th>
           </tr>
         </thead>
         <tbody>
           {reviews.map((review) => (
-            <tr key={review.id} className="hover:bg-paper/[0.03]">
-              <td className="border-b border-paper/10 px-4 py-3">{review.author_name}</td>
-              <td className="border-b border-paper/10 px-4 py-3">
-                <StarRating rating={review.rating} className="text-paper-dim/30" />
+            <tr key={review.id} className="hover:bg-ink/[0.03]">
+              <td className="border-b border-ink/10 px-4 py-3">{review.author_name}</td>
+              <td className="border-b border-ink/10 px-4 py-3">
+                <StarRating rating={review.rating} className="text-ink-dim/30" />
               </td>
-              <td className="border-b border-paper/10 px-4 py-3">{review.body}</td>
-              <td className="border-b border-paper/10 px-4 py-3">
+              <td className="border-b border-ink/10 px-4 py-3">{review.body}</td>
+              <td className="border-b border-ink/10 px-4 py-3">
                 <div className="flex gap-2">
                   {showApprove && (
                     <form action={approveReview.bind(null, review.id)}>
@@ -61,7 +61,7 @@ function ReviewsTable({
           ))}
           {reviews.length === 0 && (
             <tr>
-              <td colSpan={4} className="px-4 py-8 text-center text-paper-dim">
+              <td colSpan={4} className="px-4 py-8 text-center text-ink-dim">
                 {emptyLabel}
               </td>
             </tr>
@@ -91,7 +91,7 @@ export default async function AdminRecenzijePage() {
 
       <div data-testid="reviews-pending">
         <div className="mb-4 flex items-center gap-3">
-          <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+          <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
             Na čekanju
           </h2>
           {pending.length > 0 && (
@@ -108,7 +108,7 @@ export default async function AdminRecenzijePage() {
       </div>
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Objavljene recenzije
         </h2>
         <ReviewsTable reviews={approved} emptyLabel="Nema objavljenih recenzija." />

@@ -6,7 +6,7 @@ import { updateAppointmentStatus } from "@/app/admin/(dashboard)/termini/actions
 import type { AppointmentStatus } from "@/lib/database.types";
 
 const dotColor: Record<AppointmentStatus, string> = {
-  na_cekanju: "bg-paper-dim",
+  na_cekanju: "bg-ink-dim",
   potvrdjeno: "bg-brass",
   zavrseno: "bg-good",
   otkazano: "bg-wine",
@@ -20,7 +20,7 @@ const options = [
 ];
 
 const triggerClass =
-  "flex items-center gap-1.5 font-mono text-sm text-paper hover:text-brass";
+  "flex items-center gap-1.5 font-mono text-sm text-ink hover:text-brass";
 
 export function AppointmentStatusSelect({
   id,
@@ -38,6 +38,7 @@ export function AppointmentStatusSelect({
         defaultValue={value}
         options={options}
         className={triggerClass}
+        variant="light"
         onChange={(next) => {
           const status = next as AppointmentStatus;
           setValue(status);

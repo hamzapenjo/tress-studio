@@ -16,38 +16,38 @@ export default async function AdminOsobljePage() {
       </div>
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Osoblje
         </h2>
-        <div className="overflow-x-auto border border-paper/10">
+        <div className="overflow-x-auto border border-ink/10">
           <table className="w-full text-left font-mono text-sm">
             <thead>
               <tr>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Ime
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Specijalnost
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Fotografija
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3"></th>
+                <th className="border-b border-ink/10 px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {staff?.map((member) => (
-                <tr key={member.id} className="hover:bg-paper/[0.03]">
-                  <td className="border-b border-paper/10 px-4 py-3">
+                <tr key={member.id} className="hover:bg-ink/[0.03]">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {member.name}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {member.role ?? "-"}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3 text-paper-dim">
+                  <td className="border-b border-ink/10 px-4 py-3 text-ink-dim">
                     {member.photo_url ? "postavljena" : "-"}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     <div className="flex justify-end gap-4">
                       <Link
                         href={`/admin/osoblje/${member.id}`}
@@ -66,7 +66,7 @@ export default async function AdminOsobljePage() {
               ))}
               {(!staff || staff.length === 0) && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-paper-dim">
+                  <td colSpan={4} className="px-4 py-8 text-center text-ink-dim">
                     Nema dodanog osoblja.
                   </td>
                 </tr>

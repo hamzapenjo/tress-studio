@@ -74,7 +74,7 @@ export default async function AdminTerminiPage({
 
       <div>
         <div className="mb-4 flex items-center gap-3">
-          <h2 className="font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+          <h2 className="font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
             Termini
           </h2>
           {newCount > 0 && (
@@ -89,7 +89,7 @@ export default async function AdminTerminiPage({
               ...(doDatuma ? { do: doDatuma } : {}),
               ...(q ? { q } : {}),
             }).toString()}`}
-            className="ml-auto border border-paper/20 px-3 py-1.5 font-mono text-xs tracking-[0.05em] text-paper-dim uppercase transition-colors hover:border-brass hover:text-brass"
+            className="ml-auto border border-ink/20 px-3 py-1.5 font-mono text-xs tracking-[0.05em] text-ink-dim uppercase transition-colors hover:border-brass hover:text-brass"
           >
             Izvoz u Excel
           </a>
@@ -97,7 +97,7 @@ export default async function AdminTerminiPage({
 
         <form className="mb-5 flex flex-wrap items-end gap-3" method="get">
           <div className="flex flex-col gap-1">
-            <label className="font-mono text-[10px] tracking-[0.08em] text-paper-dim uppercase">
+            <label className="font-mono text-[10px] tracking-[0.08em] text-ink-dim uppercase">
               Status
             </label>
             <select
@@ -114,13 +114,13 @@ export default async function AdminTerminiPage({
             </select>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="font-mono text-[10px] tracking-[0.08em] text-paper-dim uppercase">
+            <label className="font-mono text-[10px] tracking-[0.08em] text-ink-dim uppercase">
               Od datuma
             </label>
             <input type="date" name="od" defaultValue={od ?? ""} className={fieldClass} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="font-mono text-[10px] tracking-[0.08em] text-paper-dim uppercase">
+            <label className="font-mono text-[10px] tracking-[0.08em] text-ink-dim uppercase">
               Do datuma
             </label>
             <input
@@ -131,7 +131,7 @@ export default async function AdminTerminiPage({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="font-mono text-[10px] tracking-[0.08em] text-paper-dim uppercase">
+            <label className="font-mono text-[10px] tracking-[0.08em] text-ink-dim uppercase">
               Pretraga klijenta
             </label>
             <input
@@ -154,50 +154,50 @@ export default async function AdminTerminiPage({
             </a>
           )}
         </form>
-        <div className="max-h-[520px] overflow-auto border border-paper/10">
+        <div className="max-h-[520px] overflow-auto border border-ink/10">
           <table className="w-full text-left font-mono text-sm">
             <thead>
               <tr>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Datum
                 </th>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Vrijeme
                 </th>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Klijent
                 </th>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Usluga
                 </th>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Frizer
                 </th>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Status
                 </th>
-                <th className="sticky top-0 z-10 border-b border-paper/10 bg-ink px-4 py-3"></th>
+                <th className="sticky top-0 z-10 border-b border-ink/10 bg-paper px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {appointments?.map((appointment) => (
                 <tr
                   key={appointment.id}
-                  className={`hover:bg-paper/[0.03] ${
+                  className={`hover:bg-ink/[0.03] ${
                     !appointment.seen ? "bg-brass/[0.06]" : ""
                   }`}
                 >
                   <td
-                    className={`border-b border-paper/10 px-4 py-3 tabular-nums ${
+                    className={`border-b border-ink/10 px-4 py-3 tabular-nums ${
                       !appointment.seen ? "border-l-2 border-l-brass" : ""
                     }`}
                   >
                     {appointment.appointment_date}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3 tabular-nums">
+                  <td className="border-b border-ink/10 px-4 py-3 tabular-nums">
                     {appointment.appointment_time}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     <div className="flex items-center gap-2">
                       {appointment.customers?.name}
                       {!appointment.seen && (
@@ -206,23 +206,23 @@ export default async function AdminTerminiPage({
                         </span>
                       )}
                     </div>
-                    <div className="text-paper-dim">
+                    <div className="text-ink-dim">
                       {appointment.customers?.phone}
                     </div>
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {appointment.services?.name}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {appointment.staff?.name ?? "-"}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     <AppointmentStatusSelect
                       id={appointment.id}
                       status={appointment.status}
                     />
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     <form action={deleteAppointment.bind(null, appointment.id)}>
                       <button type="submit" className={linkDangerClass}>
                         Obriši
@@ -235,7 +235,7 @@ export default async function AdminTerminiPage({
                 <tr>
                   <td
                     colSpan={7}
-                    className="px-4 py-8 text-center text-paper-dim"
+                    className="px-4 py-8 text-center text-ink-dim"
                   >
                     Nema zakazanih termina.
                   </td>

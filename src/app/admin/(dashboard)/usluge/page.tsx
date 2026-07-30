@@ -27,44 +27,44 @@ export default async function AdminUslugePage({
       {error && <p className="font-mono text-sm text-wine">{error}</p>}
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Usluge i cijene
         </h2>
-        <div className="overflow-x-auto border border-paper/10">
+        <div className="overflow-x-auto border border-ink/10">
           <table className="w-full text-left font-mono text-sm">
             <thead>
               <tr>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Naziv
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Kategorija
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Cijena
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3 text-xs tracking-[0.06em] text-paper-dim uppercase">
+                <th className="border-b border-ink/10 px-4 py-3 text-xs tracking-[0.06em] text-ink-dim uppercase">
                   Trajanje
                 </th>
-                <th className="border-b border-paper/10 px-4 py-3"></th>
+                <th className="border-b border-ink/10 px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {services?.map((service) => (
-                <tr key={service.id} className="hover:bg-paper/[0.03]">
-                  <td className="border-b border-paper/10 px-4 py-3">
+                <tr key={service.id} className="hover:bg-ink/[0.03]">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {service.name}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     {service.category}
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3 tabular-nums text-brass">
+                  <td className="border-b border-ink/10 px-4 py-3 tabular-nums text-brass">
                     {service.price} KM
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3 tabular-nums">
+                  <td className="border-b border-ink/10 px-4 py-3 tabular-nums">
                     {service.duration_minutes} min
                   </td>
-                  <td className="border-b border-paper/10 px-4 py-3">
+                  <td className="border-b border-ink/10 px-4 py-3">
                     <div className="flex justify-end gap-4">
                       <Link
                         href={`/admin/usluge/${service.id}`}
@@ -83,7 +83,7 @@ export default async function AdminUslugePage({
               ))}
               {(!services || services.length === 0) && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-paper-dim">
+                  <td colSpan={5} className="px-4 py-8 text-center text-ink-dim">
                     Nema usluga.
                   </td>
                 </tr>

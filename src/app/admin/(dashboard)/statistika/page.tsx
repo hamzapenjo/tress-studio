@@ -61,21 +61,21 @@ export default async function AdminStatistikaPage() {
     <div className="flex flex-col gap-10">
       <h1 className="font-display text-2xl italic">Statistika</h1>
 
-      <div className="grid grid-cols-1 gap-px border border-paper/10 bg-paper/10 sm:grid-cols-3">
-        <div className="bg-ink p-5">
-          <p className="font-mono text-xs tracking-[0.08em] text-paper-dim uppercase">
+      <div className="grid grid-cols-1 gap-px border border-ink/10 bg-ink/10 sm:grid-cols-3">
+        <div className="bg-paper p-5">
+          <p className="font-mono text-xs tracking-[0.08em] text-ink-dim uppercase">
             Termini ove sedmice
           </p>
           <p className="mt-1.5 font-mono text-2xl tabular-nums">{weekCount ?? 0}</p>
         </div>
-        <div className="bg-ink p-5">
-          <p className="font-mono text-xs tracking-[0.08em] text-paper-dim uppercase">
+        <div className="bg-paper p-5">
+          <p className="font-mono text-xs tracking-[0.08em] text-ink-dim uppercase">
             Termini ovog mjeseca
           </p>
           <p className="mt-1.5 font-mono text-2xl tabular-nums">{monthCount ?? 0}</p>
         </div>
-        <div className="bg-ink p-5">
-          <p className="font-mono text-xs tracking-[0.08em] text-paper-dim uppercase">
+        <div className="bg-paper p-5">
+          <p className="font-mono text-xs tracking-[0.08em] text-ink-dim uppercase">
             Prihod ovog mjeseca (završeni)
           </p>
           <p className="mt-1.5 font-mono text-2xl tabular-nums text-brass">
@@ -85,11 +85,11 @@ export default async function AdminStatistikaPage() {
       </div>
 
       <div>
-        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-paper-dim uppercase">
+        <h2 className="mb-4 font-mono text-xs tracking-[0.14em] text-ink-dim uppercase">
           Najtraženije usluge
         </h2>
         {topServices.length === 0 ? (
-          <p className="font-mono text-sm text-paper-dim">
+          <p className="font-mono text-sm text-ink-dim">
             Nema dovoljno podataka.
           </p>
         ) : (
@@ -97,10 +97,10 @@ export default async function AdminStatistikaPage() {
             {topServices.map(([name, count]) => (
               <li
                 key={name}
-                className="flex items-center justify-between border-b border-paper/10 py-3 first:border-t"
+                className="flex items-center justify-between border-b border-ink/10 py-3 first:border-t"
               >
                 <span className="font-display italic">{name}</span>
-                <span className="font-mono text-sm text-paper-dim tabular-nums">
+                <span className="font-mono text-sm text-ink-dim tabular-nums">
                   {count}x
                 </span>
               </li>

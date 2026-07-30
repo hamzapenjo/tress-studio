@@ -6,8 +6,11 @@ import { Select } from "@/components/select";
 const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
 const MINUTES = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"];
 
-const defaultTriggerClass =
+const defaultTriggerClassDark =
   "flex w-20 items-center justify-between gap-2 border border-paper/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-paper focus:border-brass focus:outline-none";
+
+const defaultTriggerClassLight =
+  "flex w-20 items-center justify-between gap-2 border border-ink/20 bg-transparent px-3 py-2.5 text-left font-mono text-sm text-ink focus:border-brass focus:outline-none";
 
 export function TimeInput({
   name,
@@ -27,7 +30,9 @@ export function TimeInput({
   const [defaultHour = "", defaultMinute = ""] = (defaultValue ?? "").split(":");
   const [hour, setHour] = useState(defaultHour);
   const [minute, setMinute] = useState(defaultMinute);
-  const triggerClass = triggerClassName ?? defaultTriggerClass;
+  const triggerClass =
+    triggerClassName ??
+    (variant === "light" ? defaultTriggerClassLight : defaultTriggerClassDark);
 
   function update(nextHour: string, nextMinute: string) {
     if (nextHour && nextMinute) onChange?.(`${nextHour}:${nextMinute}`);
@@ -52,7 +57,13 @@ export function TimeInput({
         testId="time-hour"
         variant={variant}
       />
-      <span className={separatorClassName ?? "text-paper-dim"}>:</span>
+      <span
+        className={
+          separatorClassName ?? (variant === "light" ? "text-ink-dim" : "text-paper-dim")
+        }
+      >
+        :
+      </span>
       <Select
         options={MINUTES.map((m) => ({ value: m, label: m }))}
         placeholder="MM"
