@@ -10,52 +10,27 @@ export interface GalleryFormState {
   message?: string;
 }
 
-function extensionOf(file: File): string {
-  const parts = file.name.split(".");
-  return parts.length > 1 ? parts.pop()! : "jpg";
-}
-
-async function uploadToBucket(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  file: File
-): Promise<string | null> {
-  const path = `${crypto.randomUUID()}.${extensionOf(file)}`;
-  const { error } = await supabase.storage
-    .from(GALLERY_BUCKET)
-    .upload(path, file, { contentType: file.type });
-
-  if (error) return null;
-
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from(GALLERY_BUCKET).getPublicUrl(path);
-  return publicUrl;
-}
+// Slike se sad uploaduju direktno iz browsera u Supabase Storage (vidi
+// src/lib/gallery-upload.ts) prije nego sto se pozovu ove akcije - Vercel
+// serverless funkcije imaju tvrd limit velicine zahtjeva (~4.5MB) koji bi
+// odbio bilo koju stvarnu fotografiju da prolazi kroz server akciju.
+// Akcije ovdje samo primaju vec gotove URL-ove i upisuju ih u bazu.
 
 export async function uploadSingleImage(
   _prevState: GalleryFormState,
-  formData: FormData
+  payload: { urls: string[]; category: string }
 ): Promise<GalleryFormState> {
-  const category = String(formData.get("category") ?? "").trim() || "Ostalo";
-  const files = formData
-    .getAll("files")
-    .filter((f): f is File => f instanceof File && f.size > 0);
+  const category = payload.category.trim() || "Ostalo";
+  const urls = payload.urls.filter(Boolean);
 
-  if (files.length === 0) {
+  if (urls.length === 0) {
     return { status: "error", message: "Odaberite bar jednu sliku." };
   }
 
   const supabase = await createClient();
-  const urls = await Promise.all(files.map((file) => uploadToBucket(supabase, file)));
-  const successfulUrls = urls.filter((url): url is string => Boolean(url));
-
-  if (successfulUrls.length === 0) {
-    return { status: "error", message: "Greška prilikom upload-a slika." };
-  }
-
   const { error } = await supabase
     .from("gallery_images")
-    .insert(successfulUrls.map((url) => ({ url, category })));
+    .insert(urls.map((url) => ({ url, category })));
 
   if (error) {
     return { status: "error", message: "Greška prilikom snimanja slika." };
@@ -68,30 +43,19 @@ export async function uploadSingleImage(
 
 export async function uploadPairImages(
   _prevState: GalleryFormState,
-  formData: FormData
+  payload: { beforeUrl: string | null; afterUrl: string | null; category: string }
 ): Promise<GalleryFormState> {
-  const category = String(formData.get("category") ?? "").trim() || "Ostalo";
-  const beforeFile = formData.get("before") as File | null;
-  const afterFile = formData.get("after") as File | null;
+  const category = payload.category.trim() || "Ostalo";
 
-  if (!beforeFile || beforeFile.size === 0 || !afterFile || afterFile.size === 0) {
+  if (!payload.beforeUrl || !payload.afterUrl) {
     return { status: "error", message: "Odaberite obje slike (prije i poslije)." };
   }
 
   const supabase = await createClient();
-  const [beforeUrl, afterUrl] = await Promise.all([
-    uploadToBucket(supabase, beforeFile),
-    uploadToBucket(supabase, afterFile),
-  ]);
-
-  if (!beforeUrl || !afterUrl) {
-    return { status: "error", message: "Greška prilikom upload-a slika." };
-  }
-
   const pairKey = crypto.randomUUID();
   const { error } = await supabase.from("gallery_images").insert([
-    { url: beforeUrl, category, pair_key: pairKey, pair_label: "prije" },
-    { url: afterUrl, category, pair_key: pairKey, pair_label: "poslije" },
+    { url: payload.beforeUrl, category, pair_key: pairKey, pair_label: "prije" },
+    { url: payload.afterUrl, category, pair_key: pairKey, pair_label: "poslije" },
   ]);
 
   if (error) {
@@ -118,22 +82,18 @@ export async function deleteImage(id: string, url: string) {
 
 export async function createHairstyleLook(
   _prevState: GalleryFormState,
-  formData: FormData
+  payload: { title: string; imageUrl: string | null }
 ): Promise<GalleryFormState> {
-  const title = String(formData.get("title") ?? "").trim();
+  const title = payload.title.trim();
 
   if (!title) {
     return { status: "error", message: "Unesite naziv frizure." };
   }
 
   const supabase = await createClient();
-
-  const image = formData.get("image") as File | null;
-  const imageUrl = image && image.size > 0 ? await uploadToBucket(supabase, image) : null;
-
   const { error } = await supabase.from("hairstyle_looks").insert({
     title,
-    image_url: imageUrl,
+    image_url: payload.imageUrl,
   });
 
   if (error) {

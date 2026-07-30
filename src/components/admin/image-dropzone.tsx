@@ -3,18 +3,20 @@
 import { useRef, useState, type DragEvent } from "react";
 
 export function ImageDropzone({
-  name,
   multiple = true,
+  onFilesChange,
 }: {
-  name: string;
   multiple?: boolean;
+  onFilesChange: (files: File[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [dragOver, setDragOver] = useState(false);
 
   function updateFromFileList(files: FileList | null) {
-    setFileNames(files ? Array.from(files).map((f) => f.name) : []);
+    const list = files ? Array.from(files) : [];
+    setFileNames(list.map((f) => f.name));
+    onFilesChange(list);
   }
 
   function handleDrop(e: DragEvent<HTMLDivElement>) {
@@ -56,7 +58,6 @@ export function ImageDropzone({
       <input
         ref={inputRef}
         type="file"
-        name={name}
         accept="image/*"
         multiple={multiple}
         className="hidden"
