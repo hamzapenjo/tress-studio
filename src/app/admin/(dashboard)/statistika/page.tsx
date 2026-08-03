@@ -9,7 +9,7 @@ function startOfWeek(date: Date) {
 }
 
 function toDateString(date: Date) {
-  return date.toISOString().split("T")[0];
+  return date.toLocaleDateString("sv-SE");
 }
 
 export default async function AdminStatistikaPage() {
