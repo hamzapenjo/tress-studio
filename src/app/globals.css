@@ -13,8 +13,8 @@ button:not(:disabled),
 }
 
 @theme inline {
-  --font-sans: var(--font-body);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jost);
+  --font-mono: var(--font-jost);
   --font-display: var(--font-playfair);
 
   /* Tress Studio brand - "Strand" */

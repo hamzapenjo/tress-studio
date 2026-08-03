@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Manrope, Geist_Mono, Playfair_Display } from "next/font/google";
+import { Jost, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-body",
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin", "latin-ext"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
 });
 
 const playfairDisplay = Playfair_Display({
@@ -43,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="bs"
-      className={`${manrope.variable} ${geistMono.variable} ${playfairDisplay.variable} h-full antialiased`}
+      className={`${jost.variable} ${playfairDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
