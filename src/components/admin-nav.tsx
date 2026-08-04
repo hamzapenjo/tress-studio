@@ -33,10 +33,15 @@ function useAdminBadgeCounts(): AdminBadgeCounts {
 
   useEffect(() => {
     let cancelled = false;
+    let requestId = 0;
 
     function refresh() {
+      const thisRequestId = ++requestId;
       getAdminBadgeCounts().then((next) => {
-        if (!cancelled) setCounts(next);
+        // Ignorisi odgovor ako je u medjuvremenu pokrenut noviji zahtjev
+        // (npr. dva realtime dogadjaja stignu brzo jedan za drugim) - inace
+        // spori/stariji odgovor moze prepisati ispravniji, noviji broj.
+        if (!cancelled && thisRequestId === requestId) setCounts(next);
       });
     }
 
