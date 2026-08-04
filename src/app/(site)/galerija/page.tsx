@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SafeImage } from "@/components/safe-image";
+import { LiveRefresh } from "@/components/live-refresh";
 
 type GalleryImage = {
   id: string;
@@ -75,6 +76,7 @@ export default async function GalerijaPage({
 
   return (
     <main className="flex-1 bg-paper text-ink">
+      <LiveRefresh tables={["gallery_images", "hairstyle_looks"]} />
       <div className="mx-auto w-full max-w-5xl px-6 py-20">
         <p className="mb-3 text-xs tracking-[0.2em] text-brass uppercase">
           Galerija

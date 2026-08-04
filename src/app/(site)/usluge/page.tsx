@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
+import { LiveRefresh } from "@/components/live-refresh";
 
 export default async function UslugePage() {
   const supabase = await createClient();
@@ -18,6 +19,7 @@ export default async function UslugePage() {
 
   return (
     <main className="flex-1 bg-paper text-ink">
+      <LiveRefresh tables={["services"]} />
       <div className="mx-auto w-full max-w-3xl px-6 py-20 sm:py-28">
         <Reveal>
           <p className="mb-3 text-xs tracking-[0.2em] text-brass uppercase">

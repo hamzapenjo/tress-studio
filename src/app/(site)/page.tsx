@@ -73,7 +73,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <LiveRefresh tables={["reviews"]} />
+      <LiveRefresh tables={["reviews", "services", "staff"]} />
       {/* HERO */}
       <section className="relative flex min-h-screen items-center overflow-hidden bg-ink text-paper">
         <SafeImage

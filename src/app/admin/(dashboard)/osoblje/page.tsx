@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { StaffForm } from "@/components/staff-form";
 import { linkMutedClass, linkDangerClass } from "@/components/admin/field-styles";
+import { LiveRefresh } from "@/components/live-refresh";
 import { createStaff, deleteStaff } from "./actions";
 
 export default async function AdminOsobljePage() {
@@ -10,6 +11,7 @@ export default async function AdminOsobljePage() {
 
   return (
     <div className="flex flex-col gap-12">
+      <LiveRefresh tables={["staff"]} />
       <div>
         <h1 className="mb-6 font-display text-2xl italic">Novi član tima</h1>
         <StaffForm action={createStaff} submitLabel="Dodaj" />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ServiceForm } from "@/components/service-form";
 import { linkMutedClass, linkDangerClass } from "@/components/admin/field-styles";
+import { LiveRefresh } from "@/components/live-refresh";
 import { createService, deleteService } from "./actions";
 
 export default async function AdminUslugePage({
@@ -19,6 +20,7 @@ export default async function AdminUslugePage({
 
   return (
     <div className="flex flex-col gap-12">
+      <LiveRefresh tables={["services"]} />
       <div>
         <h1 className="mb-6 font-display text-2xl italic">Nova usluga</h1>
         <ServiceForm action={createService} submitLabel="Dodaj uslugu" />

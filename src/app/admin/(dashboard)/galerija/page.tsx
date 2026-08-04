@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { GalleryUploadForms } from "@/components/admin/gallery-upload-forms";
 import { linkDangerClass } from "@/components/admin/field-styles";
 import { SafeImage } from "@/components/safe-image";
+import { LiveRefresh } from "@/components/live-refresh";
 import { deleteImage, deleteHairstyleLook } from "./actions";
 
 export default async function AdminGalerijaPage() {
@@ -22,6 +23,7 @@ export default async function AdminGalerijaPage() {
 
   return (
     <div className="flex flex-col gap-10">
+      <LiveRefresh tables={["gallery_images", "hairstyle_looks"]} />
       <h1 className="font-display text-2xl italic">Galerija</h1>
 
       <GalleryUploadForms categories={categories} />
