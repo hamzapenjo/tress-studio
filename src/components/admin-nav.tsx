@@ -4,26 +4,66 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/admin/login/actions";
+import { getAdminBadgeCounts, type AdminBadgeCounts } from "@/app/admin/(dashboard)/badge-actions";
 
 const links = [
   { href: "/admin/dashboard", label: "Dashboard" },
-  { href: "/admin/termini", label: "Termini" },
+  { href: "/admin/termini", label: "Termini", badgeKey: "termini" as const },
   { href: "/admin/klijenti", label: "Klijenti" },
   { href: "/admin/usluge", label: "Usluge" },
   { href: "/admin/osoblje", label: "Osoblje" },
   { href: "/admin/galerija", label: "Galerija" },
-  { href: "/admin/poruke", label: "Poruke" },
-  { href: "/admin/recenzije", label: "Recenzije" },
+  { href: "/admin/poruke", label: "Poruke", badgeKey: "poruke" as const },
+  { href: "/admin/recenzije", label: "Recenzije", badgeKey: "recenzije" as const },
   { href: "/admin/statistika", label: "Statistika" },
 ];
 
+const BADGE_POLL_MS = 15000;
+
+function useAdminBadgeCounts(): AdminBadgeCounts {
+  const pathname = usePathname();
+  const [counts, setCounts] = useState<AdminBadgeCounts>({
+    termini: 0,
+    poruke: 0,
+    recenzije: 0,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    function refresh() {
+      getAdminBadgeCounts().then((next) => {
+        if (!cancelled) setCounts(next);
+      });
+    }
+
+    function onVisibilityChange() {
+      if (document.visibilityState === "visible") refresh();
+    }
+
+    refresh();
+    const interval = setInterval(refresh, BADGE_POLL_MS);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [pathname]);
+
+  return counts;
+}
+
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const counts = useAdminBadgeCounts();
 
   return (
     <div className="flex flex-col gap-1 font-mono text-xs tracking-[0.12em] uppercase">
       {links.map((link) => {
         const active = pathname.startsWith(link.href);
+        const count = link.badgeKey ? counts[link.badgeKey] : 0;
         return (
           <Link
             key={link.href}
@@ -31,11 +71,16 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             className={
               active
-                ? "px-7 py-2.5 text-left text-brass"
-                : "px-7 py-2.5 text-left text-paper-dim/70 transition-colors hover:text-paper"
+                ? "flex items-center justify-between px-7 py-2.5 text-left text-brass"
+                : "flex items-center justify-between px-7 py-2.5 text-left text-paper-dim/70 transition-colors hover:text-paper"
             }
           >
             {link.label}
+            {count > 0 && (
+              <span className="ml-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass px-1 font-mono text-[10px] text-ink normal-case">
+                {count}
+              </span>
+            )}
           </Link>
         );
       })}
