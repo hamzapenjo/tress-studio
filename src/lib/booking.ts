@@ -32,6 +32,35 @@ export function isWithinWorkingHours(
   return start >= toMinutes(hours.start) && end <= toMinutes(hours.end);
 }
 
+export async function getBookedIntervals(
+  supabase: SupabaseClient<Database>,
+  date: string,
+  staffId: string | null
+): Promise<{ start: number; end: number }[]> {
+  let query = supabase
+    .from("appointments")
+    .select("appointment_time, services(duration_minutes)")
+    .eq("appointment_date", date)
+    .neq("status", "otkazano");
+
+  query = staffId ? query.eq("staff_id", staffId) : query.is("staff_id", null);
+
+  const { data } = await query;
+
+  return (data ?? []).map((appointment) => {
+    const start = toMinutes(appointment.appointment_time);
+    return { start, end: start + (appointment.services?.duration_minutes ?? 0) };
+  });
+}
+
+export function overlapsAny(
+  intervals: { start: number; end: number }[],
+  start: number,
+  end: number
+): boolean {
+  return intervals.some((interval) => start < interval.end && interval.start < end);
+}
+
 export async function hasOverlappingAppointment(
   supabase: SupabaseClient<Database>,
   params: {
@@ -44,24 +73,35 @@ export async function hasOverlappingAppointment(
   const { date, time, durationMinutes, staffId } = params;
   const newStart = toMinutes(time);
   const newEnd = newStart + durationMinutes;
+  const intervals = await getBookedIntervals(supabase, date, staffId);
+  return overlapsAny(intervals, newStart, newEnd);
+}
 
-  let query = supabase
-    .from("appointments")
-    .select("appointment_time, services(duration_minutes)")
-    .eq("appointment_date", date)
-    .neq("status", "otkazano");
+// Sve moguce pocetne tacke termina za dati dan/uslugu, na 15-minutne
+// razmake, unutar radnog vremena - bez provjere zauzetosti (to je
+// odvojeno, vidi getAvailableSlots server action).
+export function generateTimeSlots(
+  dateStr: string,
+  durationMinutes: number,
+  stepMinutes = 15
+): string[] {
+  const day = new Date(`${dateStr}T00:00:00`).getDay();
+  const hours = WORKING_HOURS[day];
+  if (!hours || !durationMinutes) return [];
 
-  query = staffId ? query.eq("staff_id", staffId) : query.is("staff_id", null);
+  const startMinutes = toMinutes(hours.start);
+  const endMinutes = toMinutes(hours.end);
+  const slots: string[] = [];
 
-  const { data } = await query;
-
-  for (const appointment of data ?? []) {
-    const existingStart = toMinutes(appointment.appointment_time);
-    const existingEnd = existingStart + (appointment.services?.duration_minutes ?? 0);
-    if (newStart < existingEnd && existingStart < newEnd) {
-      return true;
-    }
+  for (
+    let t = startMinutes;
+    t + durationMinutes <= endMinutes;
+    t += stepMinutes
+  ) {
+    const h = String(Math.floor(t / 60)).padStart(2, "0");
+    const m = String(t % 60).padStart(2, "0");
+    slots.push(`${h}:${m}`);
   }
 
-  return false;
+  return slots;
 }

@@ -4,7 +4,7 @@ import { useActionState, useMemo, useState } from "react";
 import { createAppointment, type BookingState } from "@/app/(site)/zakazivanje/actions";
 import type { Database } from "@/lib/database.types";
 import { Select } from "@/components/select";
-import { TimeInput } from "@/components/time-input";
+import { TimeSlotPicker } from "@/components/time-slot-picker";
 import { DatePicker } from "@/components/date-picker";
 
 type Service = Database["public"]["Tables"]["services"]["Row"];
@@ -16,16 +16,13 @@ const fieldClass =
   "border border-ink/20 bg-transparent px-3 py-2.5 text-sm text-ink placeholder:text-ink-dim/60 focus:border-brass focus:outline-none";
 const selectTriggerClass =
   "flex w-full items-center justify-between gap-2 border border-ink/20 bg-transparent px-3 py-2.5 text-left text-sm text-ink focus:border-brass focus:outline-none";
-const timeTriggerClass =
-  "flex w-20 items-center justify-between gap-2 border border-ink/20 bg-transparent px-3 py-2.5 text-left text-sm text-ink focus:border-brass focus:outline-none";
 const dateMutedClass = "text-ink-dim/60";
 const labelClass = "text-xs tracking-[0.08em] text-ink-dim uppercase";
 
 const STEP_LABELS: Record<string, string> = {
   usluga: "Usluga",
   osoblje: "Osoblje",
-  datum: "Datum",
-  vrijeme: "Vrijeme",
+  termin: "Termin",
   kontakt: "Kontakt",
 };
 
@@ -99,7 +96,7 @@ export function BookingForm({
   );
 
   const steps = useMemo(
-    () => ["usluga", ...(staff.length > 0 ? ["osoblje"] : []), "datum", "vrijeme", "kontakt"],
+    () => ["usluga", ...(staff.length > 0 ? ["osoblje"] : []), "termin", "kontakt"],
     [staff.length]
   );
   const [stepIndex, setStepIndex] = useState(0);
@@ -122,6 +119,8 @@ export function BookingForm({
 
   const step = steps[stepIndex];
   const isLastStep = stepIndex === steps.length - 1;
+  const canProceed =
+    step === "usluga" ? Boolean(serviceId) : step === "termin" ? Boolean(date && time) : true;
 
   return (
     <div className="grid grid-cols-1 items-start gap-12 sm:grid-cols-[1fr_300px]">
@@ -182,28 +181,37 @@ export function BookingForm({
           </div>
         )}
 
-        <div className={step === "datum" ? "flex flex-col gap-2" : "hidden"}>
-          <label className={labelClass}>Datum *</label>
-          <DatePicker
-            name="date"
-            minDate={new Date()}
-            onChange={setDate}
-            triggerClassName={fieldClass + " flex items-center justify-between gap-2"}
-            mutedClassName={dateMutedClass}
-            variant="light"
-          />
-        </div>
+        <div className={step === "termin" ? "flex flex-col gap-6" : "hidden"}>
+          <input type="hidden" name="time" value={time} />
 
-        <div className={step === "vrijeme" ? "flex flex-col gap-2" : "hidden"}>
-          <label className={labelClass}>Vrijeme *</label>
-          <TimeInput
-            name="time"
-            onChange={setTime}
-            triggerClassName={timeTriggerClass}
-            separatorClassName="text-ink-dim"
-            variant="light"
-          />
-          <p className="text-xs text-ink-dim">Radimo Pon-Pet 09:00-17:00.</p>
+          <div className="flex flex-col gap-2">
+            <label className={labelClass}>Datum *</label>
+            <DatePicker
+              name="date"
+              minDate={new Date()}
+              onChange={(nextDate) => {
+                setDate(nextDate);
+                setTime("");
+              }}
+              triggerClassName={fieldClass + " flex items-center justify-between gap-2"}
+              mutedClassName={dateMutedClass}
+              variant="light"
+            />
+          </div>
+
+          {date && selectedService && (
+            <div className="flex flex-col gap-2">
+              <label className={labelClass}>Vrijeme *</label>
+              <TimeSlotPicker
+                date={date}
+                durationMinutes={selectedService.duration_minutes}
+                staffId={staffId || null}
+                value={time}
+                onChange={setTime}
+              />
+              <p className="text-xs text-ink-dim">Radimo Pon-Pet 09:00-17:00.</p>
+            </div>
+          )}
         </div>
 
         <div className={step === "kontakt" ? "flex flex-col gap-6" : "hidden"}>
@@ -266,8 +274,9 @@ export function BookingForm({
           ) : (
             <button
               type="button"
+              disabled={!canProceed}
               onClick={() => setStepIndex((i) => i + 1)}
-              className="bg-ink px-7 py-3 text-sm text-white transition-opacity hover:opacity-90"
+              className="bg-ink px-7 py-3 text-sm text-white transition-opacity hover:opacity-90 disabled:opacity-40"
             >
               Dalje
             </button>

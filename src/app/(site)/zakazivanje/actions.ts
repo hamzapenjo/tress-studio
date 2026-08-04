@@ -2,8 +2,39 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
-import { hasOverlappingAppointment, isWithinWorkingHours } from "@/lib/booking";
+import {
+  generateTimeSlots,
+  getBookedIntervals,
+  hasOverlappingAppointment,
+  isWithinWorkingHours,
+  toMinutes,
+  overlapsAny,
+} from "@/lib/booking";
 import { isBookingRateLimited } from "@/lib/rate-limit";
+
+// Koristi se za prikaz dostupnih termina prije slanja forme. Ne otkriva
+// nikakve podatke o klijentima - samo koja vremena su vec zauzeta.
+export async function getAvailableSlots(
+  date: string,
+  durationMinutes: number,
+  staffId: string | null
+): Promise<string[]> {
+  const allSlots = generateTimeSlots(date, durationMinutes);
+  if (allSlots.length === 0) return [];
+
+  const supabase = createAdminClient();
+  const intervals = await getBookedIntervals(supabase, date, staffId);
+
+  const now = new Date();
+  const isToday = date === now.toLocaleDateString("sv-SE");
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+  return allSlots.filter((slot) => {
+    const start = toMinutes(slot);
+    if (isToday && start <= nowMinutes) return false;
+    return !overlapsAny(intervals, start, start + durationMinutes);
+  });
+}
 
 export interface BookingState {
   status: "idle" | "success" | "error";

@@ -58,19 +58,17 @@ test.describe("Zakazivanje termina", () => {
       await page.getByRole("button", { name: "Dalje" }).click();
     }
 
-    // Korak: datum
+    // Korak: termin (datum + vrijeme su spojeni u jedan korak)
     await page.getByTestId("date-picker").getByRole("button").first().click();
     for (let i = 0; i < monthsForward; i++) {
       await page.getByTestId("date-next-month").click();
     }
     await page.getByTestId(`date-day-${targetIso}`).click();
-    await page.getByRole("button", { name: "Dalje" }).click();
 
-    // Korak: vrijeme (10:00, sigurno unutar radnog vremena 09-17)
-    await page.getByTestId("time-hour").getByRole("button").click();
-    await page.getByRole("option", { name: "10", exact: true }).click();
-    await page.getByTestId("time-minute").getByRole("button").click();
-    await page.getByRole("option", { name: "00", exact: true }).click();
+    // 10:00 - sigurno unutar radnog vremena 09-17
+    const slot = page.getByRole("button", { name: "10:00", exact: true });
+    await expect(slot).toBeEnabled();
+    await slot.click();
     await page.getByRole("button", { name: "Dalje" }).click();
 
     // Korak: kontakt podaci
