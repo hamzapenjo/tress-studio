@@ -14,18 +14,26 @@ import { ReviewsSpotlight } from "@/components/reviews-spotlight";
 const PHOTOS = {
   heroInterior:
     "https://images.unsplash.com/photo-1781450090585-1a511b7066d9?fm=jpg&q=80&w=3840&auto=format&fit=crop",
-  stylistWorking:
-    "https://images.unsplash.com/photo-1746723375184-5f537d2e6f31?fm=jpg&q=80&w=1400&auto=format&fit=crop",
-  stylistCape:
-    "https://images.unsplash.com/photo-1700760934268-8aa0ef52ce0a?fm=jpg&q=80&w=1400&auto=format&fit=crop",
-  craftsmanship:
-    "https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?fm=jpg&q=80&w=1400&auto=format&fit=crop",
+  craftsmanship: "/images/zanat.png",
   bookingBg:
     "https://images.unsplash.com/photo-1707812343087-c9ff9e5abb43?fm=jpg&q=70&w=2000&auto=format&fit=crop",
 };
 const PORTRAIT_FALLBACKS = [
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fm=jpg&q=80&w=800&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1544005313-94ddf0286df2?fm=jpg&q=80&w=800&auto=format&fit=crop",
+];
+
+// Slike po nazivu usluge - dodane rucno kad vlasnica otpremi fotografiju za
+// tu uslugu. Usluge bez odgovarajuce slike padaju na stock fallback niz.
+const SERVICE_IMAGES: Record<string, string> = {
+  "Šišanje": "/images/sisanje.png",
+  "Tretman kose": "/images/trerman_kose.png",
+  Farbanje: "/images/farbanje.png",
+  Feniranje: "/images/feniranje.png",
+};
+const SERVICE_IMAGE_FALLBACKS = [
+  "https://images.unsplash.com/photo-1746723375184-5f537d2e6f31?fm=jpg&q=80&w=1400&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1700760934268-8aa0ef52ce0a?fm=jpg&q=80&w=1400&auto=format&fit=crop",
 ];
 
 export default async function Home() {
@@ -61,8 +69,6 @@ export default async function Home() {
   const avgRating = reviews && reviews.length > 0
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     : null;
-
-  const serviceImages = [PHOTOS.stylistWorking, PHOTOS.stylistCape];
 
   return (
     <main className="flex flex-1 flex-col">
@@ -143,7 +149,10 @@ export default async function Home() {
                 >
                   <Reveal variant="mask" className="photo-zoom aspect-[3/2] w-full">
                     <SafeImage
-                      src={serviceImages[i % serviceImages.length]}
+                      src={
+                        SERVICE_IMAGES[service.name] ??
+                        SERVICE_IMAGE_FALLBACKS[i % SERVICE_IMAGE_FALLBACKS.length]
+                      }
                       alt=""
                       className="h-full w-full object-cover"
                     />
@@ -191,7 +200,7 @@ export default async function Home() {
         {/* O NAMA */}
         <section className="border-t border-ink/10">
           <div className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-10 px-6 py-20 sm:grid-cols-2 sm:gap-16 sm:py-28">
-            <Reveal variant="mask" className="photo-zoom aspect-[4/5] w-full">
+            <Reveal variant="mask" className="photo-zoom aspect-[3/2] w-full">
               <SafeImage
                 src={PHOTOS.craftsmanship}
                 alt=""
