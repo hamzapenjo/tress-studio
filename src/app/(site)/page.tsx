@@ -17,7 +17,7 @@ const PHOTOS = {
   stylistWorking:
     "https://images.unsplash.com/photo-1746723375184-5f537d2e6f31?fm=jpg&q=80&w=1400&auto=format&fit=crop",
   stylistCape:
-    "https://images.unsplash.com/photo-1761839256791-6a93f89fb8b0?fm=jpg&q=80&w=1400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1700760934268-8aa0ef52ce0a?fm=jpg&q=80&w=1400&auto=format&fit=crop",
   craftsmanship:
     "https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?fm=jpg&q=80&w=1400&auto=format&fit=crop",
   bookingBg:
