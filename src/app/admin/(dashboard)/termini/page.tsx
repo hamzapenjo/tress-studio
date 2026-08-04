@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppointmentForm } from "@/components/appointment-form";
 import { AppointmentStatusSelect } from "@/components/appointment-status-select";
 import { MarkSeenOnView } from "@/components/mark-seen-on-view";
+import { LiveRefresh } from "@/components/live-refresh";
 import { fieldClass, linkDangerClass, linkMutedClass } from "@/components/admin/field-styles";
 import { deleteAppointment } from "./actions";
 import type { AppointmentStatus } from "@/lib/database.types";
@@ -66,6 +67,7 @@ export default async function AdminTerminiPage({
   return (
     <div className="flex flex-col gap-12">
       <MarkSeenOnView />
+      <LiveRefresh tables={["appointments"]} />
 
       <div>
         <h1 className="mb-6 font-display text-2xl italic">Dodaj termin</h1>

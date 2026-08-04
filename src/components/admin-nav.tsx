@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/admin/login/actions";
 import { getAdminBadgeCounts, type AdminBadgeCounts } from "@/app/admin/(dashboard)/badge-actions";
+import { createClient } from "@/lib/supabase/client";
 
 const links = [
   { href: "/admin/dashboard", label: "Dashboard" },
@@ -18,10 +19,12 @@ const links = [
   { href: "/admin/statistika", label: "Statistika" },
 ];
 
-const BADGE_POLL_MS = 15000;
+// Realtime pokriva "odmah" slucaj; poll je samo rezerva ako konekcija
+// ispadne (npr. laptop je bio uspavan).
+const BADGE_POLL_MS = 60000;
+const BADGE_TABLES = ["appointments", "messages", "reviews"] as const;
 
 function useAdminBadgeCounts(): AdminBadgeCounts {
-  const pathname = usePathname();
   const [counts, setCounts] = useState<AdminBadgeCounts>({
     termini: 0,
     poruke: 0,
@@ -42,6 +45,14 @@ function useAdminBadgeCounts(): AdminBadgeCounts {
     }
 
     refresh();
+
+    const supabase = createClient();
+    const channel = supabase.channel("admin-nav-badges");
+    for (const table of BADGE_TABLES) {
+      channel.on("postgres_changes", { event: "*", schema: "public", table }, refresh);
+    }
+    channel.subscribe();
+
     const interval = setInterval(refresh, BADGE_POLL_MS);
     document.addEventListener("visibilitychange", onVisibilityChange);
 
@@ -49,8 +60,9 @@ function useAdminBadgeCounts(): AdminBadgeCounts {
       cancelled = true;
       clearInterval(interval);
       document.removeEventListener("visibilitychange", onVisibilityChange);
+      supabase.removeChannel(channel);
     };
-  }, [pathname]);
+  }, []);
 
   return counts;
 }

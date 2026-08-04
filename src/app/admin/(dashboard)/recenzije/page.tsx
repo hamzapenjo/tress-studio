@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { ReviewForm } from "@/components/review-form";
+import { LiveRefresh } from "@/components/live-refresh";
 import { linkDangerClass, buttonPrimaryClass } from "@/components/admin/field-styles";
 import { approveReview, deleteReview } from "./actions";
 import { StarRating } from "@/components/star-rating";
@@ -84,6 +85,7 @@ export default async function AdminRecenzijePage() {
 
   return (
     <div className="flex flex-col gap-12">
+      <LiveRefresh tables={["reviews"]} />
       <div>
         <h1 className="mb-6 font-display text-2xl italic">Nova recenzija</h1>
         <ReviewForm />

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { MarkMessagesRead } from "@/components/mark-messages-read";
+import { LiveRefresh } from "@/components/live-refresh";
 import { linkDangerClass } from "@/components/admin/field-styles";
 import { deleteMessage } from "./actions";
 
@@ -13,6 +14,7 @@ export default async function AdminPorukePage() {
   return (
     <div className="flex flex-col gap-6">
       <MarkMessagesRead />
+      <LiveRefresh tables={["messages"]} />
       <h1 className="font-display text-2xl italic">Poruke</h1>
 
       <div className="flex flex-col gap-3">

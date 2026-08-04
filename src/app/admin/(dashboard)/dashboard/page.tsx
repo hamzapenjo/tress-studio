@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { AppointmentStatus } from "@/lib/database.types";
+import { LiveRefresh } from "@/components/live-refresh";
 
 const STATUS_LABELS: Record<AppointmentStatus, string> = {
   na_cekanju: "Na čekanju",
@@ -117,6 +118,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="flex flex-col gap-10">
+      <LiveRefresh tables={["appointments", "messages", "reviews"]} />
       <h1 className="font-display text-2xl italic">Pregled</h1>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

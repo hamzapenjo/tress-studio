@@ -6,6 +6,7 @@ import { CountUp } from "@/components/count-up";
 import { SafeImage } from "@/components/safe-image";
 import { PublicReviewForm } from "@/components/public-review-form";
 import { ReviewsSpotlight } from "@/components/reviews-spotlight";
+import { LiveRefresh } from "@/components/live-refresh";
 
 // Privremene stock fotografije (Unsplash) dok salon ne nabavi svoje.
 // TODO: zamijeniti pravim fotografijama prostora/osoblja prije lansiranja -
@@ -72,6 +73,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-1 flex-col">
+      <LiveRefresh tables={["reviews"]} />
       {/* HERO */}
       <section className="relative flex min-h-screen items-center overflow-hidden bg-ink text-paper">
         <SafeImage
