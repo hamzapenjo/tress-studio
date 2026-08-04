@@ -16,21 +16,32 @@ export function LiveRefresh({ tables }: { tables: string[] }) {
   const key = tables.join(",");
 
   useEffect(() => {
+    let cancelled = false;
     const supabase = createClient();
-    const channel = supabase.channel(`live-refresh-${key}`);
+    let channel: ReturnType<typeof supabase.channel> | null = null;
 
-    for (const table of tables) {
-      channel.on(
-        "postgres_changes",
-        { event: "*", schema: "public", table },
-        () => router.refresh()
-      );
-    }
+    // Realtime mora dobiti korisnikov JWT eksplicitno - kolacici nose
+    // sesiju za obicne upite, ali ne i za realtime socket, pa bez ovoga
+    // RLS sakriva redove koji zahtijevaju "authenticated" (npr. neodobrene
+    // recenzije) od admin sesija koje koriste ovaj hook.
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (cancelled) return;
+      if (session) supabase.realtime.setAuth(session.access_token);
 
-    channel.subscribe();
+      channel = supabase.channel(`live-refresh-${key}`);
+      for (const table of tables) {
+        channel.on(
+          "postgres_changes",
+          { event: "*", schema: "public", table },
+          () => router.refresh()
+        );
+      }
+      channel.subscribe();
+    });
 
     return () => {
-      supabase.removeChannel(channel);
+      cancelled = true;
+      if (channel) supabase.removeChannel(channel);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);

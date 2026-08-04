@@ -38,9 +38,6 @@ function useAdminBadgeCounts(): AdminBadgeCounts {
     function refresh() {
       const thisRequestId = ++requestId;
       getAdminBadgeCounts().then((next) => {
-        // Ignorisi odgovor ako je u medjuvremenu pokrenut noviji zahtjev
-        // (npr. dva realtime dogadjaja stignu brzo jedan za drugim) - inace
-        // spori/stariji odgovor moze prepisati ispravniji, noviji broj.
         if (!cancelled && thisRequestId === requestId) setCounts(next);
       });
     }
@@ -52,11 +49,22 @@ function useAdminBadgeCounts(): AdminBadgeCounts {
     refresh();
 
     const supabase = createClient();
-    const channel = supabase.channel("admin-nav-badges");
-    for (const table of BADGE_TABLES) {
-      channel.on("postgres_changes", { event: "*", schema: "public", table }, refresh);
-    }
-    channel.subscribe();
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+
+    // Realtime mora dobiti korisnikov JWT eksplicitno - bez ovoga kanal
+    // ostaje na anon nivou pristupa (kolacici nose sesiju za obicne upite,
+    // ali ne i za realtime socket), pa RLS sakriva npr. neodobrene
+    // recenzije od admina.
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (cancelled) return;
+      if (session) supabase.realtime.setAuth(session.access_token);
+
+      channel = supabase.channel("admin-nav-badges");
+      for (const table of BADGE_TABLES) {
+        channel.on("postgres_changes", { event: "*", schema: "public", table }, refresh);
+      }
+      channel.subscribe();
+    });
 
     const interval = setInterval(refresh, BADGE_POLL_MS);
     document.addEventListener("visibilitychange", onVisibilityChange);
@@ -65,7 +73,7 @@ function useAdminBadgeCounts(): AdminBadgeCounts {
       cancelled = true;
       clearInterval(interval);
       document.removeEventListener("visibilitychange", onVisibilityChange);
-      supabase.removeChannel(channel);
+      if (channel) supabase.removeChannel(channel);
     };
   }, []);
 
